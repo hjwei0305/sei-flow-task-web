@@ -1,0 +1,7 @@
+node_modules
+*.html
+/components/test/*
+dist
+package.json
+.umi
+.umi-production
