@@ -11,12 +11,10 @@ export default [
     path: '/',
     component: '../layouts/AuthLayout',
     routes: [
-      { path: '/', redirect: '/dashboard' },
-      { path: '/dashboard', component: './Dashboard' },
       {
         path: '/task',
         name: 'task',
-        routes: [{ path: '/task/home', component: './Task' }],
+        routes: [{ path: '/task/workTodo', component: './Task/WorkTodo' }],
       },
     ],
   },

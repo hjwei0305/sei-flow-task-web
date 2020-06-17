@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-05-30 23:57:41
+ * @Last Modified time: 2020-06-17 15:40:03
  */
 import { base } from '../../public/app.config.json';
 
@@ -52,10 +52,20 @@ const APP_MODULE_BTN_KEY = {
   DELETE: `${APP_BASE}_DELETE`,
 };
 
+/** 工作事项操作枚举 */
+const TASK_WORK_ACTION = {
+  TODO: 'todo',
+  VIEW_ORDER: 'View_Order',
+  FLOW_HISTORY: 'Flow_History',
+  FLOW_REVOKE: 'Flow_Revoke',
+  FLOW_END: 'Flow_End',
+};
+
 export default {
   APP_BASE,
   LOCAL_PATH,
   SERVER_PATH,
   APP_MODULE_BTN_KEY,
   LOGIN_STATUS,
+  TASK_WORK_ACTION,
 };
