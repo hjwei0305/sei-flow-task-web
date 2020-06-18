@@ -1,0 +1,63 @@
+@import '../../../../../themes/vars.less';
+.batch-modal-box {
+  :global {
+    .user-list {
+      overflow: hidden;
+      position: relative;
+      border-bottom: 4px solid #f8f8f8;
+      .list-tool-box {
+        display: flex;
+        align-items: center;
+        height: 36px;
+        line-height: 36px;
+        justify-content: space-between;
+        position: relative;
+        padding: 0 16px 0 8px;
+        border-bottom: 1px solid #eee;
+      }
+      .user-list-body {
+        .ant-list-item {
+          padding: 12px 16px 12px 8px;
+          cursor: pointer;
+          position: relative;
+          &:nth-child(odd) {
+            background-color: @white;
+          }
+          &:nth-child(even) {
+            background-color: fade(@black, 1%);
+          }
+          .ant-list-item-meta-avatar {
+            margin-right: 8px !important;
+          }
+          .ant-list-item-meta-title {
+            margin-bottom: 2px;
+          }
+          .position-label {
+            color: fade(@black, 45%);
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 8px;
+          }
+          &:hover {
+            background-color: @suid-row-hover;
+          }
+          &.checked {
+            background-color: @suid-row-select;
+          }
+          .ant-radio-input {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+      .common-user-box {
+        .ant-list-item {
+          &.selected,
+          &.checked {
+            background-color: @suid-row-select;
+          }
+        }
+      }
+    }
+  }
+}

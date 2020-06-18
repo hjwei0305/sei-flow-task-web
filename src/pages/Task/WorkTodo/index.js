@@ -4,11 +4,12 @@ import { connect } from 'dva';
 import { get } from 'lodash';
 import moment from 'moment';
 import { FormattedMessage } from 'umi-plugin-react/locale';
-import { Button, Tag } from 'antd';
-import { ExtTable, utils, ExtIcon } from 'suid';
-import { constants, formartUrl,taskColor } from '@/utils';
+import { Button, Tag, Drawer } from 'antd';
+import { ExtTable, utils } from 'suid';
+import { constants, formartUrl, taskColor } from '@/utils';
 import ExtAction from './components/ExtAction';
 import FilterView from './components/FilterView';
+import BatchModal from './components/BatchModal';
 import styles from './index.less';
 
 const { eventBus } = utils;
@@ -24,6 +25,7 @@ class WorkTodo extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            checkedKeys: [],
             isBatch: false,
         }
     }
@@ -102,6 +104,7 @@ class WorkTodo extends PureComponent {
                     batchApproval: isBatch,
                 }
             });
+            this.handlerRefreshData();
             return ({
                 isBatch
             });
@@ -114,16 +117,56 @@ class WorkTodo extends PureComponent {
         }
     }
 
+    handlerCancelBatchApprove = () => {
+        this.setState({
+            checkedKeys: []
+        }, this.tableRef.manualSelectedRows)
+    };
+
+    handlerBatchApprove = () => {
+        const { dispatch } = this.props;
+        const { checkedKeys } = this.state;
+        dispatch({
+            type: 'taskWorkTodo/getBatchNextNodeList',
+            payload: checkedKeys
+        });
+    };
+
+    handlerCloseBatchModal = () => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'taskWorkTodo/updateState',
+            payload: {
+                showBatchModal: false,
+                batchNextNodes: [],
+            }
+        });
+    };
+
+    handlerSubmitBatch = (data) => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'taskWorkTodo/submitBatch',
+            payload: data,
+            callback: (res) => {
+                if (res.success) {
+                    this.setState({ checkedKeys: [] }, this.handlerRefreshData);
+                }
+            }
+        });
+    };
+
     render() {
-        const { isBatch } = this.state;
-        const { taskWorkTodo } = this.props;
-        const { currentViewType, viewTypeData } = taskWorkTodo;
+        const { isBatch, checkedKeys } = this.state;
+        const { taskWorkTodo, loading } = this.props;
+        const { currentViewType, viewTypeData, showBatchModal, batchNextNodes } = taskWorkTodo;
+        const hasSelected = checkedKeys.length > 0;
         const columns = [{
             title: '单据编号',
             dataIndex: 'flowInstance.businessCode',
             width: 160,
-            render: (_text, record) => {
-                if (record) {
+            render: (text, record) => {
+                if (record && !isBatch) {
                     const num = get(record, 'flowInstance.businessCode', '');
                     return (
                         <span title={num}>
@@ -131,7 +174,7 @@ class WorkTodo extends PureComponent {
                         </span>
                     );
                 }
-                return null;
+                return text;
             }
         }, {
             title: '流程名称',
@@ -209,7 +252,12 @@ class WorkTodo extends PureComponent {
                         viewTypeData={viewTypeData}
                         onAction={this.handlerViewTypeChange}
                     />
-                    <Button type={isBatch ? 'danger' : 'default'} onClick={this.handlerBatch} className="btn-item">
+                    <Button
+                        type={isBatch ? 'danger' : 'default'}
+                        onClick={this.handlerBatch}
+                        loading={loading.effects['taskWorkTodo/getWorkTodoViewTypeList']}
+                        className="btn-item"
+                    >
                         {
                             isBatch
                                 ? '退出批量处理'
@@ -219,6 +267,33 @@ class WorkTodo extends PureComponent {
                     <Button onClick={this.handlerRefreshData} className="btn-item">
                         <FormattedMessage id="global.refresh" defaultMessage="刷新" />
                     </Button>
+                    <Drawer
+                        placement="top"
+                        closable={false}
+                        mask={false}
+                        height={44}
+                        getContainer={false}
+                        style={{ position: 'absolute' }}
+                        visible={hasSelected}
+                    >
+                        <span className={cls('select')}>{`已选择 ${checkedKeys.length} 项`}</span>
+                        <Button
+                            className="btn-item"
+                            type="danger"
+                            onClick={this.handlerCancelBatchApprove}
+                            disabled={loading.effects['taskWorkTodo/removeAssignedFeatureItem']}
+                        >
+                            取消
+                        </Button>
+                        <Button
+                            className="btn-item"
+                            type="primary"
+                            onClick={this.handlerBatchApprove}
+                            loading={loading.effects['taskWorkTodo/getBatchNextNodeList']}
+                        >
+                            批量处理
+                        </Button>
+                    </Drawer>
                 </>
             ),
         };
@@ -233,6 +308,13 @@ class WorkTodo extends PureComponent {
             cascadeParams: {
                 modelId: get(currentViewType, 'businessModeId', null),
             },
+            onSelectRow: (keys) => {
+                if (isBatch) {
+                    this.setState({
+                        checkedKeys: keys
+                    });
+                }
+            },
             store: {
                 type: 'POST',
                 url: `${SERVER_PATH}/flow-service/flowTask/queryCurrentUserFlowTask`,
@@ -243,9 +325,17 @@ class WorkTodo extends PureComponent {
                 field: { 'createdDate': 'asc', 'flowName': null, 'flowInstance.creatorAccount': null, 'flowInstance.businessCode': null, 'flowInstance.businessModelRemark': null }
             }
         };
+        const batchModalProps = {
+            visible: showBatchModal,
+            batchNextNodes,
+            submitting: loading.effects['taskWorkTodo/submitBatch'],
+            onCloseModal: this.handlerCloseBatchModal,
+            onSubmitBatch: this.handlerSubmitBatch,
+        };
         return (
             <div className={cls(styles['container-box'])}>
                 <ExtTable {...extTableProps} />
+                <BatchModal {...batchModalProps} />
             </div>
         )
     }

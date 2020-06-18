@@ -26,3 +26,28 @@ export async function getBatchWorkTodoViewTypeList(params) {
         params,
     });
 }
+
+/** 
+ * 获取批处理待办事项的流程节点数据
+ */
+export async function getBatchNextNodeList(data) {
+    const url = `${SERVER_PATH}/flow-service/flowTask/getBatchNextNodes`;
+    return request({
+        url,
+        method: "POST",
+        data,
+    });
+}
+
+/** 
+ * 批处理提交
+ */
+export async function submitBatch(data) {
+    const url = `${SERVER_PATH}/flow-service/flowTask/completeTaskBatch`;
+    return request({
+        url,
+        method: "POST",
+        data,
+    });
+}
+  

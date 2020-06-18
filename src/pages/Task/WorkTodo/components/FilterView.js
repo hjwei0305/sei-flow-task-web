@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
-import { Dropdown, Menu } from 'antd';
+import { Dropdown, Menu, Empty } from 'antd';
 import { utils, ExtIcon } from 'suid';
 import styles from './FilterView.less';
 
@@ -81,25 +81,43 @@ class ExtAction extends PureComponent {
     const { currentViewType } = this.props;
     const { menuShow, menusData } = this.state;
     return (
-      <Dropdown
-        trigger={['hover']}
-        overlay={this.getMenu(menusData)}
-        className="action-drop-down"
-        placement="bottomLeft"
-        visible={menuShow}
-        onVisibleChange={this.onVisibleChange}
-      >
-        <span className={cls(styles['view-box'])}>
-          <span className="view-label">
-            <ExtIcon type="eye" antd />
-            <em>视图</em>
-          </span>
-          <span className="view-content">
-            {get(currentViewType, 'businessModelName')}
-          </span>
-          <ExtIcon type="down" antd />
-        </span>
-      </Dropdown>
+      <>
+        {
+          !menusData || menusData.length === 0
+            ? (
+              <span className={cls(styles['view-box'])}>
+                <span className="view-label">
+                  <ExtIcon type="eye" antd />
+                  <em>视图</em>
+                </span>
+                <span className="view-content">
+                  {get(currentViewType, 'businessModelName')}
+                </span>
+              </span>
+            )
+            : (
+              <Dropdown
+                trigger={['click']}
+                overlay={this.getMenu(menusData)}
+                className="action-drop-down"
+                placement="bottomLeft"
+                visible={menuShow}
+                onVisibleChange={this.onVisibleChange}
+              >
+                <span className={cls(styles['view-box'])}>
+                  <span className="view-label">
+                    <ExtIcon type="eye" antd />
+                    <em>视图</em>
+                  </span>
+                  <span className="view-content">
+                    {get(currentViewType, 'businessModelName')}
+                  </span>
+                  <ExtIcon type="down" antd />
+                </span>
+              </Dropdown>
+            )
+        }
+      </>
     );
   }
 }

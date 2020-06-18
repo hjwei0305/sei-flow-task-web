@@ -1,9 +1,15 @@
 import { message } from 'antd';
 import { utils } from 'suid';
-import { getWorkTodoViewTypeList, getBatchWorkTodoViewTypeList } from './service';
+import { getWorkTodoViewTypeList, getBatchWorkTodoViewTypeList, getBatchNextNodeList, submitBatch } from './service';
 
 const { pathMatchRegexp, dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
+
+const blankViewType = {
+    businessModeId: null,
+    businessModelName: '暂无待办事项',
+    count: 0,
+};
 
 export default modelExtend(model, {
     namespace: 'taskWorkTodo',
@@ -11,6 +17,8 @@ export default modelExtend(model, {
     state: {
         viewTypeData: [],
         currentViewType: null,
+        batchNextNodes: [],
+        showBatchModal: false,
     },
     subscriptions: {
         setup({ dispatch, history }) {
@@ -51,11 +59,46 @@ export default modelExtend(model, {
                     type: 'updateState',
                     payload: {
                         viewTypeData,
-                        currentViewType: viewTypeData.length > 0 ? viewTypeData[0] : null,
+                        currentViewType: viewTypeData.length > 0 ? viewTypeData[0] : blankViewType,
+                    },
+                });
+            } else {
+                message.destroy();
+                message.error(re.message);
+            }
+        },
+        *getBatchNextNodeList({ payload }, { call, put }) {
+            const re = yield call(getBatchNextNodeList, payload);
+            if (re.success) {
+                yield put({
+                    type: 'updateState',
+                    payload: {
+                        batchNextNodes: re.data,
+                        showBatchModal: true,
+                    },
+                });
+            } else {
+                message.destroy();
+                message.error(re.message);
+            }
+        },
+        *submitBatch({ payload, callback }, { call, put }) {
+            const re = yield call(submitBatch, payload);
+            message.destroy();
+            if (re.success) {
+                message.success('处理成功');
+                yield put({
+                    type: 'updateState',
+                    payload: {
+                        batchNextNodes: [],
+                        showBatchModal: false,
                     },
                 });
             } else {
                 message.error(re.message);
+            }
+            if (callback && callback instanceof Function) {
+                callback(re);
             }
         },
     },
