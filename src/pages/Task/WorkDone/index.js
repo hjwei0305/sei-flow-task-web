@@ -190,6 +190,7 @@ class WorkDone extends PureComponent {
         width: 50,
         align: 'center',
         dataIndex: 'id',
+        title: '操作',
         className: 'action',
         required: true,
         render: (id, record) => {
