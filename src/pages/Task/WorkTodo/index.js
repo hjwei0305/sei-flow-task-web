@@ -31,7 +31,8 @@ class WorkTodo extends PureComponent {
     }
 
     handlerViewOrder = doneItem => {
-        let url = formartUrl(doneItem.webBaseAddressAbsolute, doneItem.flowInstanceLookUrl);
+        const lookUrl = get(doneItem, 'flowInstance.flowDefination.flowType.lookUrl') || get(doneItem, 'flowInstance.flowDefination.flowType.businessModel.lookUrl');
+        let url = formartUrl(doneItem.webBaseAddressAbsolute, lookUrl);
         if (url.indexOf('?') === -1) {
             url = `${url}?id=${doneItem.flowInstanceBusinessId}`;
         } else {
@@ -245,6 +246,7 @@ class WorkTodo extends PureComponent {
             });
         }
         const toolBarProps = {
+            layout: { leftSpan: 14, rightSpan: 10 },
             left: (
                 <>
                     <FilterView
@@ -261,7 +263,7 @@ class WorkTodo extends PureComponent {
                         {
                             isBatch
                                 ? '退出批量处理'
-                                : '批量处理'
+                                : '我要批量处理'
                         }
                     </Button>
                     <Button onClick={this.handlerRefreshData} className="btn-item">

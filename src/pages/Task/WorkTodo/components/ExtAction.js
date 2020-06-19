@@ -78,7 +78,7 @@ class ExtAction extends PureComponent {
           if (m.key === TASK_WORK_ACTION.FLOW_HISTORY) {
             return (
               <Item key={m.key}>
-                <FlowHistoryButton businessId={get(record, 'flowInstance.BusinessId', null)}>
+                <FlowHistoryButton businessId={get(record, 'flowInstance.businessId', null)}>
                   <span className="view-popover-box-trigger">{m.title}</span>
                 </FlowHistoryButton>
               </Item>

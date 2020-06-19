@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
-import { Dropdown, Menu, Empty } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon } from 'suid';
 import styles from './FilterView.less';
 
 const { getUUID } = utils;
 const { Item } = Menu;
 
-class ExtAction extends PureComponent {
+class FilterView extends PureComponent {
   constructor(props) {
     super(props);
     const { viewTypeData, currentViewType } = props;
@@ -122,4 +122,4 @@ class ExtAction extends PureComponent {
   }
 }
 
-export default ExtAction;
+export default FilterView;
