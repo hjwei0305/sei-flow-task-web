@@ -3,7 +3,6 @@ import cls from 'classnames';
 import { connect } from 'dva';
 import { get } from 'lodash';
 import moment from 'moment';
-import withRouter from 'umi/withRouter';
 import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Drawer } from 'antd';
 import { ExtTable, utils } from 'suid';
@@ -17,7 +16,6 @@ const { eventBus } = utils;
 
 const { SERVER_PATH, TASK_WORK_ACTION } = constants;
 
-@withRouter
 @connect(({ taskWorkTodo, loading }) => ({ taskWorkTodo, loading }))
 class WorkTodo extends PureComponent {
   static tableRef;
@@ -166,7 +164,7 @@ class WorkTodo extends PureComponent {
 
   render() {
     const { isBatch, checkedKeys } = this.state;
-    const { taskWorkTodo, loading, location } = this.props;
+    const { taskWorkTodo, loading } = this.props;
     const { currentViewType, viewTypeData, showBatchModal, batchNextNodes } = taskWorkTodo;
     const hasSelected = checkedKeys.length > 0;
     const columns = [
@@ -319,11 +317,7 @@ class WorkTodo extends PureComponent {
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
       remotePaging: true,
       cascadeParams: {
-        modelId: get(
-          currentViewType,
-          'businessModeId',
-          get(location, 'query.currentViewTypeId', null),
-        ),
+        modelId: get(currentViewType, 'businessModeId', null),
       },
       onSelectRow: keys => {
         if (isBatch) {

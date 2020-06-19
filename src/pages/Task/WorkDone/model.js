@@ -29,12 +29,10 @@ export default modelExtend(model, {
     setup({ dispatch, history }) {
       history.listen(location => {
         if (pathMatchRegexp('/task/workTodo', location.pathname)) {
-          const { currentViewTypeId } = location.query;
           dispatch({
             type: 'getWorkTodoViewTypeList',
             payload: {
               batchApproval: false,
-              queryViewTypeId: currentViewTypeId,
             },
           });
         }
@@ -43,7 +41,7 @@ export default modelExtend(model, {
   },
   effects: {
     *getWorkTodoViewTypeList({ payload }, { call, put }) {
-      const { batchApproval, queryViewTypeId } = payload;
+      const { batchApproval } = payload;
       let re;
       if (batchApproval) {
         re = yield call(getBatchWorkTodoViewTypeList, { batchApproval });
@@ -61,19 +59,11 @@ export default modelExtend(model, {
             count,
           });
         }
-        let currentViewType = viewTypeData.length > 0 ? viewTypeData[0] : blankViewType;
-        if (queryViewTypeId && viewTypeData.length > 0) {
-          viewTypeData.forEach(v => {
-            if (v.businessModeId === queryViewTypeId) {
-              currentViewType = v;
-            }
-          });
-        }
         yield put({
           type: 'updateState',
           payload: {
             viewTypeData,
-            currentViewType,
+            currentViewType: viewTypeData.length > 0 ? viewTypeData[0] : blankViewType,
           },
         });
       } else {
