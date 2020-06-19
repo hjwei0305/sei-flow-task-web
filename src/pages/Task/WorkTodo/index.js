@@ -30,8 +30,8 @@ class WorkTodo extends PureComponent {
 
   handlerViewOrder = doneItem => {
     const lookUrl =
-      get(doneItem, 'flowInstance.flowDefination.flowType.lookUrl') ||
-      get(doneItem, 'flowInstance.flowDefination.flowType.businessModel.lookUrl');
+      get(doneItem, 'flowInstance.flowDefVersion.flowDefination.flowType.lookUrl') ||
+      get(doneItem, 'flowInstance.flowDefVersion.flowDefination.flowType.businessModel.lookUrl');
     let url = formartUrl(doneItem.webBaseAddressAbsolute, lookUrl);
     const flowInstanceBusinessId = get(doneItem, 'flowInstance.businessId', null);
     const flowInstanceBusinessCode = get(doneItem, 'flowInstance.businessCode', null);
