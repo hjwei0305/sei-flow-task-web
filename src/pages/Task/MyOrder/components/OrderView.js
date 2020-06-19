@@ -3,12 +3,12 @@ import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon } from 'suid';
-import styles from './WorkView.less';
+import styles from './OrderView.less';
 
 const { getUUID } = utils;
 const { Item } = Menu;
 
-class WorkView extends PureComponent {
+class OrderView extends PureComponent {
   constructor(props) {
     super(props);
     const { viewTypeData, currentViewType } = props;
@@ -112,4 +112,4 @@ class WorkView extends PureComponent {
   }
 }
 
-export default WorkView;
+export default OrderView;

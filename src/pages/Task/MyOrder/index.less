@@ -5,8 +5,28 @@
   overflow: hidden;
   background-color: @page-background-color;
   :global {
-    .a {
-      color: red;
+    .suid-tool-bar {
+      position: relative;
+      overflow: hidden;
+      .btn-item {
+        margin-right: 8px;
+      }
+      .ant-drawer-top.ant-drawer-open .ant-drawer-content-wrapper {
+        box-shadow: none;
+      }
+      .ant-drawer-body {
+        display: flex;
+        align-items: center;
+        height: 44px;
+        padding: 0 24px;
+        line-height: 44px;
+        background-color: @white;
+        .select {
+          display: inline-block;
+          min-width: 120px;
+          color: fade(@black, 65%);
+        }
+      }
     }
   }
 }
