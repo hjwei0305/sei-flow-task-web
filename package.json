@@ -1,6 +1,6 @@
 {
   "name": "sei-flow-task-web",
-  "title":"sei-flow-task-web",
+  "title": "sei-flow-task-web",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -30,7 +30,7 @@
     "qs": "^6.9.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "suid": "^1.2.27",
+    "suid": "^1.2.99",
     "umi-plugin-react": "^1.8.4"
   },
   "devDependencies": {
@@ -65,7 +65,9 @@
     }
   },
   "lint-staged": {
-    "**/*.less": ["stylelint --fix --syntax less"],
+    "**/*.less": [
+      "stylelint --fix --syntax less"
+    ],
     "**/*.{js,jsx,tsx,ts,less,md,json}": [
       "prettier --write",
       "git add"

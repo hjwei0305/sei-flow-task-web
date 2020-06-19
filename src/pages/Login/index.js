@@ -13,9 +13,15 @@ const { Option } = Select;
 @connect(({ global, loading }) => ({ global, loading }))
 @Form.create()
 class LoginForm extends PureComponent {
+  static loginReqId;
+
+  constructor(props) {
+    super(props);
+    this.loginReqId = utils.getUUID();
+  }
+
   componentDidMount() {
     this.userInput.focus();
-    this.loginReqId = utils.getUUID();
     this.handleVertify();
   }
 
@@ -56,8 +62,6 @@ class LoginForm extends PureComponent {
       },
     });
   };
-
-  static loginReqId = '';
 
   render() {
     const { loading, form, global } = this.props;
