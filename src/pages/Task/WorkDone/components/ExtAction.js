@@ -1,3 +1,9 @@
+/*
+ * @Author: Eason
+ * @Date: 2020-06-19 10:27:48
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-06-19 14:53:55
+ */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { get } from 'lodash';
@@ -7,17 +13,12 @@ import { constants } from '@/utils';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;
-const { TASK_WORK_ACTION } = constants;
+const { TASK_WORK_ACTION, FLOW_STATUS } = constants;
 const { Item } = Menu;
 
 const { FlowHistoryButton } = WorkFlow;
 
 const menuData = () => [
-  {
-    title: '审批单据',
-    key: TASK_WORK_ACTION.TODO,
-    disabled: false,
-  },
   {
     title: '查看单据',
     key: TASK_WORK_ACTION.VIEW_ORDER,
@@ -27,6 +28,11 @@ const menuData = () => [
     title: '审批历史',
     key: TASK_WORK_ACTION.FLOW_HISTORY,
     disabled: false,
+  },
+  {
+    title: '我要撤回',
+    key: TASK_WORK_ACTION.FLOW_REVOKE,
+    disabled: true,
   },
 ];
 
@@ -45,7 +51,20 @@ class ExtAction extends PureComponent {
   }
 
   initActionMenus = () => {
+    const { doneItem } = this.props;
     const menus = menuData();
+    const flowInstanceEnded = get(doneItem, 'flowInstance.ended');
+    if (
+      doneItem.taskStatus === FLOW_STATUS.COMPLETED &&
+      doneItem.canCancel === true &&
+      flowInstanceEnded === false
+    ) {
+      menus.forEach(m => {
+        if (m.key === TASK_WORK_ACTION.FLOW_REVOKE) {
+          Object.assign(m, { disabled: false });
+        }
+      });
+    }
     const mData = menus.filter(m => !m.disabled);
     this.setState({
       menusData: mData,
@@ -58,15 +77,16 @@ class ExtAction extends PureComponent {
       selectedKeys: '',
       menuShow: false,
     });
-    const { onAction, item } = this.props;
+    const { onAction, doneItem } = this.props;
     if (onAction) {
-      onAction(e.key, item);
+      onAction(e.key, doneItem);
     }
   };
 
   getMenu = (menus, record) => {
     const { selectedKeys } = this.state;
     const menuId = getUUID();
+    const flowInstanceBusinessId = get(record, 'flowInstance.businessId', null);
     return (
       <Menu
         id={menuId}
@@ -75,10 +95,17 @@ class ExtAction extends PureComponent {
         selectedKeys={[selectedKeys]}
       >
         {menus.map(m => {
+          if (m.key === TASK_WORK_ACTION.FLOW_REVOKE) {
+            return (
+              <Item key={m.key} className={cls('warning')}>
+                <span className="view-popover-box-trigger">{m.title}</span>
+              </Item>
+            );
+          }
           if (m.key === TASK_WORK_ACTION.FLOW_HISTORY) {
             return (
               <Item key={m.key}>
-                <FlowHistoryButton businessId={get(record, 'flowInstance.businessId', null)}>
+                <FlowHistoryButton businessId={flowInstanceBusinessId}>
                   <span className="view-popover-box-trigger">{m.title}</span>
                 </FlowHistoryButton>
               </Item>
@@ -103,14 +130,14 @@ class ExtAction extends PureComponent {
   };
 
   render() {
-    const { item } = this.props;
+    const { doneItem } = this.props;
     const { menuShow, menusData } = this.state;
     return (
       <>
         {menusData.length > 0 ? (
           <Dropdown
             trigger={['hover']}
-            overlay={this.getMenu(menusData, item)}
+            overlay={this.getMenu(menusData, doneItem)}
             className="action-drop-down"
             placement="bottomLeft"
             visible={menuShow}

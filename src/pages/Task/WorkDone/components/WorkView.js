@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon } from 'suid';
-import styles from './FilterView.less';
+import styles from './WorkView.less';
 
 const { getUUID } = utils;
 const { Item } = Menu;
@@ -43,7 +43,7 @@ class FilterView extends PureComponent {
     }
   };
 
-  getMenu = (menus) => {
+  getMenu = menus => {
     const { selectedKey } = this.state;
     const menuId = getUUID();
     return (
@@ -56,11 +56,9 @@ class FilterView extends PureComponent {
         {menus.map((m, index) => {
           return (
             <Item key={index.toString()}>
-              {
-                index.toString() === selectedKey.toString()
-                  ? <ExtIcon type="check" className="selected" antd />
-                  : null
-              }
+              {index.toString() === selectedKey.toString() ? (
+                <ExtIcon type="check" className="selected" antd />
+              ) : null}
               <span className="view-popover-box-trigger">{m.businessModelName}</span>
             </Item>
           );
@@ -82,41 +80,33 @@ class FilterView extends PureComponent {
     const { menuShow, menusData } = this.state;
     return (
       <>
-        {
-          !menusData || menusData.length === 0
-            ? (
-              <span className={cls(styles['view-box'])}>
-                <span className="view-label">
-                  <ExtIcon type="eye" antd />
-                  <em>视图</em>
-                </span>
-                <span className="view-content">
-                  {get(currentViewType, 'businessModelName')}
-                </span>
+        {!menusData || menusData.length === 0 ? (
+          <span className={cls(styles['view-box'])}>
+            <span className="view-label">
+              <ExtIcon type="eye" antd />
+              <em>视图</em>
+            </span>
+            <span className="view-content">{get(currentViewType, 'businessModelName')}</span>
+          </span>
+        ) : (
+          <Dropdown
+            trigger={['click']}
+            overlay={this.getMenu(menusData)}
+            className="action-drop-down"
+            placement="bottomLeft"
+            visible={menuShow}
+            onVisibleChange={this.onVisibleChange}
+          >
+            <span className={cls(styles['view-box'])}>
+              <span className="view-label">
+                <ExtIcon type="eye" antd />
+                <em>视图</em>
               </span>
-            )
-            : (
-              <Dropdown
-                trigger={['click']}
-                overlay={this.getMenu(menusData)}
-                className="action-drop-down"
-                placement="bottomLeft"
-                visible={menuShow}
-                onVisibleChange={this.onVisibleChange}
-              >
-                <span className={cls(styles['view-box'])}>
-                  <span className="view-label">
-                    <ExtIcon type="eye" antd />
-                    <em>视图</em>
-                  </span>
-                  <span className="view-content">
-                    {get(currentViewType, 'businessModelName')}
-                  </span>
-                  <ExtIcon type="down" antd />
-                </span>
-              </Dropdown>
-            )
-        }
+              <span className="view-content">{get(currentViewType, 'businessModelName')}</span>
+              <ExtIcon type="down" antd />
+            </span>
+          </Dropdown>
+        )}
       </>
     );
   }

@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-17 15:40:03
+ * @Last Modified time: 2020-06-19 13:53:54
  */
 import { base } from '../../public/app.config.json';
 
@@ -61,6 +61,11 @@ const TASK_WORK_ACTION = {
   FLOW_END: 'Flow_End',
 };
 
+/** 流程状态枚举 */
+const FLOW_STATUS = {
+  COMPLETED: 'COMPLETED',
+};
+
 export default {
   APP_BASE,
   LOCAL_PATH,
@@ -68,4 +73,5 @@ export default {
   APP_MODULE_BTN_KEY,
   LOGIN_STATUS,
   TASK_WORK_ACTION,
+  FLOW_STATUS,
 };

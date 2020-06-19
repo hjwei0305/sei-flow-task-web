@@ -1,53 +1,37 @@
 import { message } from 'antd';
 import { utils } from 'suid';
-import {
-  getWorkTodoViewTypeList,
-  getBatchWorkTodoViewTypeList,
-  getBatchNextNodeList,
-  submitBatch,
-} from './service';
+import { getWorkDoneViewTypeList, flowRevokeSubmit } from './service';
 
 const { pathMatchRegexp, dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
 
 const blankViewType = {
   businessModeId: null,
-  businessModelName: '暂无待办事项',
+  businessModelName: '暂无已办事项',
   count: 0,
 };
 
 export default modelExtend(model, {
-  namespace: 'taskWorkTodo',
+  namespace: 'taskWorkDone',
 
   state: {
     viewTypeData: [],
     currentViewType: null,
-    batchNextNodes: [],
-    showBatchModal: false,
   },
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
-        if (pathMatchRegexp('/task/workTodo', location.pathname)) {
+        if (pathMatchRegexp('/task/workDone', location.pathname)) {
           dispatch({
-            type: 'getWorkTodoViewTypeList',
-            payload: {
-              batchApproval: false,
-            },
+            type: 'getWorkDoneViewTypeList',
           });
         }
       });
     },
   },
   effects: {
-    *getWorkTodoViewTypeList({ payload }, { call, put }) {
-      const { batchApproval } = payload;
-      let re;
-      if (batchApproval) {
-        re = yield call(getBatchWorkTodoViewTypeList, { batchApproval });
-      } else {
-        re = yield call(getWorkTodoViewTypeList);
-      }
+    *getWorkDoneViewTypeList(_, { call, put }) {
+      const re = yield call(getWorkDoneViewTypeList);
       if (re.success) {
         const viewTypeData = [...re.data];
         let count = 0;
@@ -55,7 +39,7 @@ export default modelExtend(model, {
         if (viewTypeData.length > 1) {
           viewTypeData.unshift({
             businessModeId: null,
-            businessModelName: '全部待办事项',
+            businessModelName: '全部已办事项',
             count,
           });
         }
@@ -71,33 +55,11 @@ export default modelExtend(model, {
         message.error(re.message);
       }
     },
-    *getBatchNextNodeList({ payload }, { call, put }) {
-      const re = yield call(getBatchNextNodeList, payload);
-      if (re.success) {
-        yield put({
-          type: 'updateState',
-          payload: {
-            batchNextNodes: re.data,
-            showBatchModal: true,
-          },
-        });
-      } else {
-        message.destroy();
-        message.error(re.message);
-      }
-    },
-    *submitBatch({ payload, callback }, { call, put }) {
-      const re = yield call(submitBatch, payload);
+    *flowRevokeSubmit({ payload, callback }, { call }) {
+      const re = yield call(flowRevokeSubmit, payload);
       message.destroy();
       if (re.success) {
         message.success('处理成功');
-        yield put({
-          type: 'updateState',
-          payload: {
-            batchNextNodes: [],
-            showBatchModal: false,
-          },
-        });
       } else {
         message.error(re.message);
       }

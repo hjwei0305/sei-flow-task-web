@@ -1,31 +1,36 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { connect } from 'dva';
-import { get } from 'lodash';
+import { get, trim } from 'lodash';
 import moment from 'moment';
 import { FormattedMessage } from 'umi-plugin-react/locale';
-import { Button, Tag, Drawer } from 'antd';
-import { ExtTable, utils } from 'suid';
-import { constants, formartUrl, taskColor } from '@/utils';
+import { Button, Tag, Input, Alert, Modal } from 'antd';
+import { ExtTable, utils, ExtIcon, Animate } from 'suid';
+import { constants, formartUrl } from '@/utils';
 import ExtAction from './components/ExtAction';
-import FilterView from './components/FilterView';
-import BatchModal from './components/BatchModal';
+import WorkView from './components/WorkView';
 import styles from './index.less';
 
 const { eventBus } = utils;
 
 const { SERVER_PATH, TASK_WORK_ACTION } = constants;
 
-@connect(({ taskWorkTodo, loading }) => ({ taskWorkTodo, loading }))
-class WorkTodo extends PureComponent {
+const { TextArea } = Input;
+
+@connect(({ taskWorkDone, loading }) => ({ taskWorkDone, loading }))
+class WorkDone extends PureComponent {
   static tableRef;
+
+  static flowRevokeOpinion;
+
+  static showFlowRevokeOpinionValidate;
+
+  static confirmModal;
 
   constructor(props) {
     super(props);
-    this.state = {
-      checkedKeys: [],
-      isBatch: false,
-    };
+    this.flowRevokeOpinion = '';
+    this.showFlowRevokeOpinionValidate = false;
   }
 
   handlerViewOrder = doneItem => {
@@ -59,58 +64,114 @@ class WorkTodo extends PureComponent {
     }
   };
 
-  handlerApproveOrder = item => {
-    let url = '';
-    const flowInstanceId = get(item, 'flowInstance.id', null);
-    const flowInstanceBusinessId = get(item, 'flowInstance.businessId', null);
-    if (item.taskFormUrl.includes('?')) {
-      url = `${item.taskFormUrl}&taskId=${item.id}&instanceId=${flowInstanceId}&id=${flowInstanceBusinessId}`;
-    } else {
-      url = `${item.taskFormUrl}?taskId=${item.id}&instanceId=${flowInstanceId}&id=${flowInstanceBusinessId}`;
-    }
-    this.tabOpen({
-      id: item.id,
-      title: `${item.taskName}-${get(item, 'flowInstance.BusinessCode', null)}`,
-      url,
-    });
-  };
-
   handlerAction = (key, record) => {
     switch (key) {
       case TASK_WORK_ACTION.VIEW_ORDER:
         this.handlerViewOrder(record);
         break;
-      case TASK_WORK_ACTION.TODO:
-        this.handlerApproveOrder(record);
+      case TASK_WORK_ACTION.FLOW_REVOKE:
+        this.flowRevokeConfirm(record);
         break;
       default:
     }
   };
 
-  handlerViewTypeChange = currentViewType => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'taskWorkTodo/updateState',
-      payload: {
-        currentViewType,
+  handlerOpinionChange = e => {
+    this.flowRevokeOpinion = trim(e.target.value);
+    if (this.flowRevokeOpinion) {
+      this.showFlowRevokeOpinionValidate = false;
+    } else {
+      this.showFlowRevokeOpinionValidate = true;
+    }
+  };
+
+  renderflowRevokeConfirmContent = () => {
+    const confirmOpin = (
+      <TextArea
+        style={{ resize: 'none' }}
+        autoSize={false}
+        rows={4}
+        placeholder="请填写撤回的原因"
+        onChange={this.handlerOpinionChange}
+      />
+    );
+    let tip = null;
+    if (this.showFlowRevokeOpinionValidate === true) {
+      tip = (
+        <Animate type="shake">
+          <Alert type="error" message="请填写你想要撤回的原因" style={{ marginBottom: 8 }} banner />
+        </Animate>
+      );
+    }
+    return (
+      <>
+        {tip}
+        {confirmOpin}
+      </>
+    );
+  };
+
+  flowRevokeConfirm = doneItem => {
+    this.confirmModal = Modal.confirm({
+      title: '我要撤销',
+      content: this.renderflowRevokeConfirmContent(),
+      icon: <ExtIcon type="exclamation-circle" antd />,
+      okText: '确定',
+      cancelText: '取消',
+      onOk: () => {
+        return new Promise(resolve => {
+          if (!this.flowRevokeOpinion) {
+            this.showFlowRevokeOpinionValidate = true;
+            this.confirmModal.update({
+              okButtonProps: { loading: false },
+              content: this.renderflowRevokeConfirmContent(),
+            });
+          } else {
+            this.flowRevokeSubmit(doneItem, resolve);
+          }
+        });
+      },
+      onCancel: () => {
+        this.showFlowRevokeOpinionValidate = false;
+        this.confirmModal.destroy();
+        this.confirmModal = null;
+        this.flowRevokeOpinion = '';
       },
     });
   };
 
-  handlerBatch = () => {
-    this.setState(state => {
-      const isBatch = !state.isBatch;
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'taskWorkTodo/getWorkTodoViewTypeList',
-        payload: {
-          batchApproval: isBatch,
-        },
-      });
-      this.handlerRefreshData();
-      return {
-        isBatch,
-      };
+  flowRevokeSubmit = (doneItem, resolve) => {
+    const { dispatch } = this.props;
+    this.showFlowRevokeOpinionValidate = false;
+    this.confirmModal.update({
+      okButtonProps: { loading: true },
+      cancelButtonProps: { disabled: true },
+      content: this.renderflowRevokeConfirmContent(),
+    });
+    const data = { id: doneItem.id, opinion: this.flowRevokeOpinion };
+    dispatch({
+      type: 'taskWorkDone/flowRevokeSubmit',
+      payload: data,
+      callback: res => {
+        this.confirmModal.update({
+          okButtonProps: { loading: false },
+          cancelButtonProps: { disabled: false },
+        });
+        if (res.success) {
+          resolve();
+          this.handlerRefreshData();
+        }
+      },
+    });
+  };
+
+  handlerViewTypeChange = currentViewType => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskWorkDone/updateState',
+      payload: {
+        currentViewType,
+      },
     });
   };
 
@@ -120,75 +181,29 @@ class WorkTodo extends PureComponent {
     }
   };
 
-  handlerCancelBatchApprove = () => {
-    this.setState(
-      {
-        checkedKeys: [],
-      },
-      this.tableRef.manualSelectedRows,
-    );
-  };
-
-  handlerBatchApprove = () => {
-    const { dispatch } = this.props;
-    const { checkedKeys } = this.state;
-    dispatch({
-      type: 'taskWorkTodo/getBatchNextNodeList',
-      payload: checkedKeys,
-    });
-  };
-
-  handlerCloseBatchModal = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'taskWorkTodo/updateState',
-      payload: {
-        showBatchModal: false,
-        batchNextNodes: [],
-      },
-    });
-  };
-
-  handlerSubmitBatch = data => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'taskWorkTodo/submitBatch',
-      payload: data,
-      callback: res => {
-        if (res.success) {
-          this.setState({ checkedKeys: [] }, this.handlerRefreshData);
-        }
-      },
-    });
-  };
-
   render() {
-    const { isBatch, checkedKeys } = this.state;
-    const { taskWorkTodo, loading } = this.props;
-    const { currentViewType, viewTypeData, showBatchModal, batchNextNodes } = taskWorkTodo;
-    const hasSelected = checkedKeys.length > 0;
+    const { taskWorkDone } = this.props;
+    const { currentViewType, viewTypeData } = taskWorkDone;
     const columns = [
+      {
+        key: 'operation',
+        width: 50,
+        align: 'center',
+        dataIndex: 'id',
+        className: 'action',
+        required: true,
+        render: (id, record) => {
+          return (
+            <span className={cls('action-box')}>
+              <ExtAction key={id} onAction={this.handlerAction} doneItem={record} />
+            </span>
+          );
+        },
+      },
       {
         title: '单据编号',
         dataIndex: 'flowInstance.businessCode',
         width: 160,
-        render: (text, record) => {
-          if (record && !isBatch) {
-            const num = get(record, 'flowInstance.businessCode', '');
-            return (
-              <span title={num}>
-                <Button
-                  type="link"
-                  style={{ padding: 0 }}
-                  onClick={() => this.handlerApproveOrder(record)}
-                >
-                  {num}
-                </Button>
-              </span>
-            );
-          }
-          return text;
-        },
       },
       {
         title: '流程名称',
@@ -224,94 +239,39 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '事项到达',
-        dataIndex: 'createdDate',
+        title: '处理时间',
+        dataIndex: 'actEndTime',
         width: 100,
         render: (_text, record) => {
           if (record) {
             return (
-              <Tag color={taskColor(record.createdDate)}>
-                <span title={moment(record.createdDate).format('YYYY-MM-DD HH:mm:ss')}>
-                  {moment(record.createdDate).fromNow()}
-                </span>
-              </Tag>
+              <span title={moment(record.actEndTime).format('YYYY-MM-DD HH:mm:ss')}>
+                <Tag>{moment(record.actEndTime).fromNow()}</Tag>
+              </span>
             );
           }
           return null;
         },
       },
     ];
-    if (!isBatch) {
-      columns.unshift({
-        key: 'operation',
-        width: 50,
-        align: 'center',
-        dataIndex: 'id',
-        className: 'action',
-        required: true,
-        render: (id, record) => {
-          return (
-            <span className={cls('action-box')}>
-              <ExtAction key={id} onAction={this.handlerAction} item={record} />
-            </span>
-          );
-        },
-      });
-    }
     const toolBarProps = {
       layout: { leftSpan: 14, rightSpan: 10 },
       left: (
         <>
-          <FilterView
+          <WorkView
             currentViewType={currentViewType}
             viewTypeData={viewTypeData}
             onAction={this.handlerViewTypeChange}
           />
-          <Button
-            type={isBatch ? 'danger' : 'default'}
-            onClick={this.handlerBatch}
-            loading={loading.effects['taskWorkTodo/getWorkTodoViewTypeList']}
-            className="btn-item"
-          >
-            {isBatch ? '退出批量处理' : '我要批量处理'}
-          </Button>
           <Button onClick={this.handlerRefreshData} className="btn-item">
             <FormattedMessage id="global.refresh" defaultMessage="刷新" />
           </Button>
-          <Drawer
-            placement="top"
-            closable={false}
-            mask={false}
-            height={44}
-            getContainer={false}
-            style={{ position: 'absolute' }}
-            visible={hasSelected}
-          >
-            <span className={cls('select')}>{`已选择 ${checkedKeys.length} 项`}</span>
-            <Button
-              className="btn-item"
-              type="danger"
-              onClick={this.handlerCancelBatchApprove}
-              disabled={loading.effects['taskWorkTodo/removeAssignedFeatureItem']}
-            >
-              取消
-            </Button>
-            <Button
-              className="btn-item"
-              type="primary"
-              onClick={this.handlerBatchApprove}
-              loading={loading.effects['taskWorkTodo/getBatchNextNodeList']}
-            >
-              批量处理
-            </Button>
-          </Drawer>
         </>
       ),
     };
     const extTableProps = {
       toolBar: toolBarProps,
       columns,
-      checkbox: isBatch,
       searchWidth: 280,
       searchPlaceHolder: '输入单据编号、说明关键字查询',
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
@@ -319,22 +279,14 @@ class WorkTodo extends PureComponent {
       cascadeParams: {
         modelId: get(currentViewType, 'businessModeId', null),
       },
-      onSelectRow: keys => {
-        if (isBatch) {
-          this.setState({
-            checkedKeys: keys,
-          });
-        }
-      },
       store: {
         type: 'POST',
-        url: `${SERVER_PATH}/flow-service/flowTask/queryCurrentUserFlowTask`,
-        params: { canBatch: isBatch },
+        url: `${SERVER_PATH}/flow-service/flowHistory/listValidFlowHistory`,
       },
       onTableRef: ref => (this.tableRef = ref),
       sort: {
         field: {
-          createdDate: 'asc',
+          actEndTime: 'desc',
           flowName: null,
           'flowInstance.creatorAccount': null,
           'flowInstance.businessCode': null,
@@ -342,20 +294,12 @@ class WorkTodo extends PureComponent {
         },
       },
     };
-    const batchModalProps = {
-      visible: showBatchModal,
-      batchNextNodes,
-      submitting: loading.effects['taskWorkTodo/submitBatch'],
-      onCloseModal: this.handlerCloseBatchModal,
-      onSubmitBatch: this.handlerSubmitBatch,
-    };
     return (
       <div className={cls(styles['container-box'])}>
         <ExtTable {...extTableProps} />
-        <BatchModal {...batchModalProps} />
       </div>
     );
   }
 }
 
-export default WorkTodo;
+export default WorkDone;

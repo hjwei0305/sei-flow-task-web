@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon } from 'suid';
-import styles from './FilterView.less';
+import styles from './WorkView.less';
 
 const { getUUID } = utils;
 const { Item } = Menu;

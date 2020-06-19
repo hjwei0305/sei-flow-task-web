@@ -9,7 +9,7 @@ import { Button, Tag, Drawer } from 'antd';
 import { ExtTable, utils } from 'suid';
 import { constants, formartUrl, taskColor } from '@/utils';
 import ExtAction from './components/ExtAction';
-import FilterView from './components/FilterView';
+import WorkView from './components/WorkView';
 import BatchModal from './components/BatchModal';
 import styles from './index.less';
 
@@ -264,7 +264,7 @@ class WorkTodo extends PureComponent {
       layout: { leftSpan: 14, rightSpan: 10 },
       left: (
         <>
-          <FilterView
+          <WorkView
             currentViewType={currentViewType}
             viewTypeData={viewTypeData}
             onAction={this.handlerViewTypeChange}
