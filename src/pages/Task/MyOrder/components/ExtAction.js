@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:48
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 17:39:16
+ * @Last Modified time: 2020-06-19 17:50:22
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -81,7 +81,7 @@ class ExtAction extends PureComponent {
   getMenu = (menus, record) => {
     const { selectedKeys } = this.state;
     const menuId = getUUID();
-    const businessId = get(record, 'flowInstance.businessId', null);
+    const businessId = get(record, 'businessId', null);
     return (
       <Menu
         id={menuId}

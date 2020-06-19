@@ -28,12 +28,10 @@ class MyOrder extends PureComponent {
   }
 
   handlerViewOrder = doneItem => {
-    const lookUrl =
-      get(doneItem, 'flowInstance.flowDefVersion.flowDefination.flowType.lookUrl') ||
-      get(doneItem, 'flowInstance.flowDefVersion.flowDefination.flowType.businessModel.lookUrl');
+    const lookUrl = get(doneItem, 'lookUrl');
     let url = formartUrl(doneItem.webBaseAddressAbsolute, lookUrl);
-    const flowInstanceBusinessId = get(doneItem, 'flowInstance.businessId', null);
-    const flowInstanceBusinessCode = get(doneItem, 'flowInstance.businessCode', null);
+    const flowInstanceBusinessId = get(doneItem, 'businessId', null);
+    const flowInstanceBusinessCode = get(doneItem, 'businessCode', null);
     if (url.indexOf('?') === -1) {
       url = `${url}?id=${flowInstanceBusinessId}`;
     } else {
@@ -75,7 +73,7 @@ class MyOrder extends PureComponent {
       <>
         确定要终止单号为
         <span style={{ color: 'rgba(0,0,0,0.65)', margin: '0 8px', fontWeight: 700 }}>
-          {get(doneItem, 'flowInstance.businessCode', '')}
+          {doneItem.businessCode}
         </span>
         的单据吗?
       </>
@@ -107,7 +105,7 @@ class MyOrder extends PureComponent {
       okButtonProps: { loading: true },
       cancelButtonProps: { disabled: true },
     });
-    const data = { instanceId: get(doneItem, 'flowInstance.id', null) };
+    const data = { instanceId: get(doneItem, 'flowInstanceId', null) };
     dispatch({
       type: 'taskMyOrder/flowEndSubmit',
       payload: data,
@@ -162,7 +160,7 @@ class MyOrder extends PureComponent {
       },
       {
         title: '单据编号',
-        dataIndex: 'flowInstance.businessCode',
+        dataIndex: 'businessCode',
         width: 160,
       },
       {
@@ -170,10 +168,10 @@ class MyOrder extends PureComponent {
         dataIndex: 'flowStatus',
         width: 140,
         render: (_, record) => {
-          if (get(record, 'flowInstance.ended') === true) {
+          if (get(record, 'ended') === true) {
             return <Tag color="blue">审批完成</Tag>;
           }
-          if (get(record, 'flowInstance.manuallyEnd') === true) {
+          if (get(record, 'manuallyEnd') === true) {
             return <Tag color="magenta">异常结束</Tag>;
           }
           return <Tag color="green">审批中</Tag>;
@@ -189,11 +187,11 @@ class MyOrder extends PureComponent {
       },
       {
         title: '单据说明',
-        dataIndex: 'flowInstance.businessModelRemark',
+        dataIndex: 'businessModelRemark',
         width: 480,
         render: (_text, record) => {
           if (record) {
-            const res = get(record, 'flowInstance.businessModelRemark', '');
+            const res = get(record, 'businessModelRemark', '');
             return <span title={res}>{res}</span>;
           }
           return null;
@@ -216,11 +214,11 @@ class MyOrder extends PureComponent {
       },
       {
         title: '审批完成时间',
-        dataIndex: 'actEndTime',
+        dataIndex: 'endDate',
         width: 160,
         render: (_text, record) => {
           if (record) {
-            return moment(record.actEndTime).format('YYYY-MM-DD HH:mm');
+            return moment(record.endDate).format('YYYY-MM-DD HH:mm');
           }
           return null;
         },
@@ -244,25 +242,26 @@ class MyOrder extends PureComponent {
     const extTableProps = {
       toolBar: toolBarProps,
       columns,
+      rowKey: 'businessId',
       searchWidth: 280,
       searchPlaceHolder: '输入单据编号、说明关键字查询',
-      searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
+      searchProperties: ['businessCode', 'businessModelRemark'],
       remotePaging: true,
       cascadeParams: {
         modelId: get(currentViewType, 'businessModeId', null),
       },
       store: {
         type: 'POST',
-        url: `${SERVER_PATH}/flow-service/flowHistory/listValidFlowHistory`,
+        url: `${SERVER_PATH}/flow-service/flowInstance/getAllMyBills`,
       },
       onTableRef: ref => (this.tableRef = ref),
       sort: {
         field: {
-          actEndTime: 'desc',
+          createdDate: 'desc',
+          endDate: null,
           flowName: null,
-          'flowInstance.creatorAccount': null,
-          'flowInstance.businessCode': null,
-          'flowInstance.businessModelRemark': null,
+          businessCode: null,
+          businessModelRemark: null,
         },
       },
     };
