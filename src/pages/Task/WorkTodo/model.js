@@ -49,8 +49,10 @@ export default modelExtend(model, {
       let re;
       if (batchApproval) {
         re = yield call(getBatchWorkTodoViewTypeList, { batchApproval });
+        blankViewType.businessModelName = '暂无可批量处理的待办事项';
       } else {
         re = yield call(getWorkTodoViewTypeList);
+        blankViewType.businessModelName = '暂无待办事项';
       }
       if (re.success) {
         const viewTypeData = [...re.data];
