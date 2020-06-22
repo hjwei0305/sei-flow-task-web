@@ -213,11 +213,12 @@ class MyOrder extends PureComponent {
         },
       },
       {
-        title: '审批完成时间',
+        title: '流程结束时间',
         dataIndex: 'endDate',
         width: 160,
         render: (_text, record) => {
-          if (record) {
+          const ended = get(record, 'ended') || get(record, 'manuallyEnd');
+          if (record && ended === true) {
             return moment(record.endDate).format('YYYY-MM-DD HH:mm');
           }
           return null;

@@ -240,7 +240,7 @@ class WorkDone extends PureComponent {
         },
       },
       {
-        title: '处理时间',
+        title: '办理时间',
         dataIndex: 'actEndTime',
         width: 100,
         render: (_text, record) => {
