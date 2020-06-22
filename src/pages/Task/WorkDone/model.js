@@ -17,6 +17,8 @@ export default modelExtend(model, {
   state: {
     viewTypeData: [],
     currentViewType: null,
+    showFilter: false,
+    filterData: {},
   },
   subscriptions: {
     setup({ dispatch, history }) {

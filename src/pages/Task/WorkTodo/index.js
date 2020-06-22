@@ -207,16 +207,6 @@ class WorkTodo extends PureComponent {
     });
   };
 
-  handlerResetFilter = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'taskWorkTodo/updateState',
-      payload: {
-        filterData: {},
-      },
-    });
-  };
-
   getFilters = () => {
     const { taskWorkTodo } = this.props;
     const { filterData } = taskWorkTodo;
@@ -397,7 +387,7 @@ class WorkTodo extends PureComponent {
             className={cls('filter-btn', 'icon-btn-item', { 'has-filter': filters.hasFilter })}
             onClick={this.handlerShowFilter}
           >
-            <ExtIcon type="filter" />
+            <ExtIcon type="filter" style={{ fontSize: 16 }} />
             <span className="lable">过滤</span>
           </span>
         </>
@@ -454,7 +444,6 @@ class WorkTodo extends PureComponent {
       filterData,
       onFilterSubmit: this.handlerFilterSubmit,
       onCloseFilter: this.handlerCloseFilter,
-      onResetFilter: this.handlerResetFilter,
     };
     return (
       <div className={cls(styles['container-box'])}>

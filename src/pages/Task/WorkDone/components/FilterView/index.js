@@ -55,8 +55,8 @@ class FilterView extends PureComponent {
       if (err) {
         return;
       }
-      Object.assign(filterData, omit(formData, ['createdDate']));
-      const [startDate, endDate] = formData.createdDate;
+      Object.assign(filterData, omit(formData, ['actEndTime']));
+      const [startDate, endDate] = formData.actEndTime;
       filterData.startDate = startDate;
       filterData.endDate = endDate;
       onFilterSubmit(filterData);
@@ -95,8 +95,8 @@ class FilterView extends PureComponent {
             initialValue: get(filterData, 'businessModelRemark', null),
           })(<Input allowClear placeholder="单据说明关键字" />)}
         </FormItem>
-        <FormItem label="事项到达">
-          {getFieldDecorator('createdDate', {
+        <FormItem label="办理时间">
+          {getFieldDecorator('actEndTime', {
             initialValue: [get(filterData, 'startDate'), get(filterData, 'endDate')],
           })(<ScopeDatePicker {...scopeDatePickerProps} />)}
         </FormItem>

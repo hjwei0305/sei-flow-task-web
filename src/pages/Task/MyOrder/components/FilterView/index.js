@@ -95,7 +95,7 @@ class FilterView extends PureComponent {
             initialValue: get(filterData, 'businessModelRemark', null),
           })(<Input allowClear placeholder="单据说明关键字" />)}
         </FormItem>
-        <FormItem label="事项到达">
+        <FormItem label="提交时间">
           {getFieldDecorator('createdDate', {
             initialValue: [get(filterData, 'startDate'), get(filterData, 'endDate')],
           })(<ScopeDatePicker {...scopeDatePickerProps} />)}

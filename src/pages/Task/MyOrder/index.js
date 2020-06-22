@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { connect } from 'dva';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Modal } from 'antd';
@@ -9,11 +9,23 @@ import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl } from '@/utils';
 import ExtAction from './components/ExtAction';
 import OrderView from './components/OrderView';
+import FilterView from './components/FilterView';
 import styles from './index.less';
 
 const { eventBus } = utils;
 
 const { SERVER_PATH, TASK_WORK_ACTION } = constants;
+
+const filterOperation = {
+  startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
+  endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
+  businessCode: { fieldName: 'businessCode', operation: 'LK', dataType: 'String' },
+  businessModelRemark: {
+    fieldName: 'businessModelRemark',
+    opoperationer: 'LK',
+    dataType: 'String',
+  },
+};
 
 @connect(({ taskMyOrder, loading }) => ({ taskMyOrder, loading }))
 class MyOrder extends PureComponent {
@@ -138,9 +150,71 @@ class MyOrder extends PureComponent {
     }
   };
 
+  handlerFilterSubmit = filterData => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/updateState',
+      payload: {
+        showFilter: false,
+        filterData,
+      },
+    });
+  };
+
+  handlerShowFilter = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/updateState',
+      payload: {
+        showFilter: true,
+      },
+    });
+  };
+
+  handlerCloseFilter = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/updateState',
+      payload: {
+        showFilter: false,
+      },
+    });
+  };
+
+  handlerResetFilter = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/updateState',
+      payload: {
+        filterData: {},
+      },
+    });
+  };
+
+  getFilters = () => {
+    const { taskMyOrder } = this.props;
+    const { filterData } = taskMyOrder;
+    const filters = { filter: [], hasFilter: false };
+    Object.keys(filterData).forEach(key => {
+      const operation = get(filterOperation, key);
+      const value = get(filterData, key, null);
+      if (!isEmpty(value)) {
+        filters.hasFilter = true;
+      }
+      filters.filter.push({
+        fieldName: get(operation, 'fieldName'),
+        value,
+        operator: get(operation, 'operation'),
+        fieldType: get(operation, 'dataType'),
+      });
+    });
+    return filters;
+  };
+
   render() {
     const { taskMyOrder } = this.props;
-    const { currentViewType, viewTypeData } = taskMyOrder;
+    const { currentViewType, viewTypeData, showFilter, filterData } = taskMyOrder;
+    const filters = this.getFilters();
     const columns = [
       {
         key: 'operation',
@@ -239,6 +313,17 @@ class MyOrder extends PureComponent {
           </Button>
         </>
       ),
+      extra: (
+        <>
+          <span
+            className={cls('filter-btn', 'icon-btn-item', { 'has-filter': filters.hasFilter })}
+            onClick={this.handlerShowFilter}
+          >
+            <ExtIcon type="filter" style={{ fontSize: 16 }} />
+            <span className="lable">过滤</span>
+          </span>
+        </>
+      ),
     };
     const extTableProps = {
       toolBar: toolBarProps,
@@ -250,6 +335,7 @@ class MyOrder extends PureComponent {
       remotePaging: true,
       cascadeParams: {
         modelId: get(currentViewType, 'businessModeId', null),
+        filters: filters.filter,
       },
       store: {
         type: 'POST',
@@ -266,9 +352,16 @@ class MyOrder extends PureComponent {
         },
       },
     };
+    const filterViewProps = {
+      showFilter,
+      filterData,
+      onFilterSubmit: this.handlerFilterSubmit,
+      onCloseFilter: this.handlerCloseFilter,
+    };
     return (
       <div className={cls(styles['container-box'])}>
         <ExtTable {...extTableProps} />
+        <FilterView {...filterViewProps} />
       </div>
     );
   }
