@@ -24,6 +24,8 @@ export default modelExtend(model, {
     currentViewType: null,
     batchNextNodes: [],
     showBatchModal: false,
+    showFilter: false,
+    filterData: {},
   },
   subscriptions: {
     setup({ dispatch, history }) {

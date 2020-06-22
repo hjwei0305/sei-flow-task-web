@@ -1,21 +1,33 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { connect } from 'dva';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import withRouter from 'umi/withRouter';
 import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Drawer } from 'antd';
-import { ExtTable, utils } from 'suid';
+import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl, taskColor } from '@/utils';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import BatchModal from './components/BatchModal';
+import FilterView from './components/FilterView';
 import styles from './index.less';
 
 const { eventBus } = utils;
 
 const { SERVER_PATH, TASK_WORK_ACTION } = constants;
+
+const filterOperation = {
+  startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
+  endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
+  businessCode: { fieldName: 'flowInstance.businessCode', operation: 'LK', dataType: 'String' },
+  businessModelRemark: {
+    fieldName: 'flowInstance.businessModelRemark',
+    opoperationer: 'LK',
+    dataType: 'String',
+  },
+};
 
 @withRouter
 @connect(({ taskWorkTodo, loading }) => ({ taskWorkTodo, loading }))
@@ -164,11 +176,80 @@ class WorkTodo extends PureComponent {
     });
   };
 
+  handlerFilterSubmit = filterData => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskWorkTodo/updateState',
+      payload: {
+        showFilter: false,
+        filterData,
+      },
+    });
+  };
+
+  handlerShowFilter = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskWorkTodo/updateState',
+      payload: {
+        showFilter: true,
+      },
+    });
+  };
+
+  handlerCloseFilter = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskWorkTodo/updateState',
+      payload: {
+        showFilter: false,
+      },
+    });
+  };
+
+  handlerResetFilter = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskWorkTodo/updateState',
+      payload: {
+        filterData: {},
+      },
+    });
+  };
+
+  getFilters = () => {
+    const { taskWorkTodo } = this.props;
+    const { filterData } = taskWorkTodo;
+    const filters = { filter: [], hasFilter: false };
+    Object.keys(filterData).forEach(key => {
+      const operation = get(filterOperation, key);
+      const value = get(filterData, key, null);
+      if (!isEmpty(value)) {
+        filters.hasFilter = true;
+      }
+      filters.filter.push({
+        fieldName: get(operation, 'fieldName'),
+        value,
+        operator: get(operation, 'operation'),
+        fieldType: get(operation, 'dataType'),
+      });
+    });
+    return filters;
+  };
+
   render() {
     const { isBatch, checkedKeys } = this.state;
     const { taskWorkTodo, loading, location } = this.props;
-    const { currentViewType, viewTypeData, showBatchModal, batchNextNodes } = taskWorkTodo;
+    const {
+      currentViewType,
+      viewTypeData,
+      showBatchModal,
+      batchNextNodes,
+      showFilter,
+      filterData,
+    } = taskWorkTodo;
     const hasSelected = checkedKeys.length > 0;
+    const filters = this.getFilters();
     const columns = [
       {
         title: '单据编号',
@@ -310,6 +391,17 @@ class WorkTodo extends PureComponent {
           </Drawer>
         </>
       ),
+      extra: (
+        <>
+          <span
+            className={cls('filter-btn', 'icon-btn-item', { 'has-filter': filters.hasFilter })}
+            onClick={this.handlerShowFilter}
+          >
+            <ExtIcon type="filter" />
+            <span className="lable">过滤</span>
+          </span>
+        </>
+      ),
     };
     const extTableProps = {
       toolBar: toolBarProps,
@@ -325,6 +417,7 @@ class WorkTodo extends PureComponent {
           'businessModeId',
           get(location, 'query.currentViewTypeId', null),
         ),
+        filters: filters.filter,
       },
       onSelectRow: keys => {
         if (isBatch) {
@@ -356,10 +449,18 @@ class WorkTodo extends PureComponent {
       onCloseModal: this.handlerCloseBatchModal,
       onSubmitBatch: this.handlerSubmitBatch,
     };
+    const filterViewProps = {
+      showFilter,
+      filterData,
+      onFilterSubmit: this.handlerFilterSubmit,
+      onCloseFilter: this.handlerCloseFilter,
+      onResetFilter: this.handlerResetFilter,
+    };
     return (
       <div className={cls(styles['container-box'])}>
         <ExtTable {...extTableProps} />
         <BatchModal {...batchModalProps} />
+        <FilterView {...filterViewProps} />
       </div>
     );
   }
