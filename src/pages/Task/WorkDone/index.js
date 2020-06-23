@@ -266,6 +266,7 @@ class WorkDone extends PureComponent {
         dataIndex: 'id',
         title: '操作',
         className: 'action',
+        fixed: 'left',
         required: true,
         render: (id, record) => {
           return (

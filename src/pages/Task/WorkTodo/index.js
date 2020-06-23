@@ -321,6 +321,7 @@ class WorkTodo extends PureComponent {
         align: 'center',
         dataIndex: 'id',
         title: '操作',
+        fixed: 'left',
         className: 'action',
         required: true,
         render: (id, record) => {
