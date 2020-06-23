@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 13:53:54
+ * @Last Modified time: 2020-06-23 16:46:18
  */
 import { base } from '../../public/app.config.json';
 
@@ -64,6 +64,8 @@ const TASK_WORK_ACTION = {
 /** 流程状态枚举 */
 const FLOW_STATUS = {
   COMPLETED: 'COMPLETED',
+  IN_APPROVAL: 'IN_APPROVAL',
+  ABORT: 'ABORT',
 };
 
 export default {

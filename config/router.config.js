@@ -8,6 +8,10 @@ export default [
     ],
   },
   {
+    path: '/test',
+    component: './Test',
+  },
+  {
     path: '/',
     component: '../layouts/AuthLayout',
     routes: [

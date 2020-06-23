@@ -3,10 +3,11 @@ import cls from 'classnames';
 import PropTypes from 'prop-types';
 import { get, omit, isEqual } from 'lodash';
 import { Drawer, Form, Button, Input } from 'antd';
-import { ScrollBar, ScopeDatePicker } from 'suid';
+import { ScrollBar, ScopeDatePicker, ComboList } from 'suid';
 import styles from './index.less';
 
 const FormItem = Form.Item;
+
 const formItemLayout = {
   labelCol: {
     span: 24,
@@ -14,6 +15,16 @@ const formItemLayout = {
   wrapperCol: {
     span: 24,
   },
+};
+
+const flowStatusData = {
+  ended: { name: '审批完成', code: 'ended' },
+  inflow: { name: '审批中', code: 'inflow' },
+  abnormalEnd: { name: '异常结束', code: 'abnormalEnd' },
+};
+
+const getFlowStatusData = () => {
+  return Object.keys(flowStatusData).map(key => flowStatusData[key]);
 };
 
 @Form.create()
@@ -55,7 +66,7 @@ class FilterView extends PureComponent {
       if (err) {
         return;
       }
-      Object.assign(filterData, omit(formData, ['createdDate']));
+      Object.assign(filterData, omit(formData, ['createdDate', 'flowStatusName']));
       const [startDate, endDate] = formData.createdDate;
       filterData.startDate = startDate;
       filterData.endDate = endDate;
@@ -83,6 +94,23 @@ class FilterView extends PureComponent {
     const scopeDatePickerProps = {
       format: 'YYYY-MM-DD',
     };
+    getFieldDecorator('flowStatus', {
+      initialValue: get(filterData, 'flowStatus', null),
+    });
+    const comboListProps = {
+      form,
+      placeholder: '全部状态',
+      allowClear: true,
+      showSearch: false,
+      dataSource: getFlowStatusData(),
+      name: 'flowStatusName',
+      field: ['flowStatus'],
+      reader: {
+        name: 'name',
+        field: ['code'],
+      },
+    };
+    const flowStatus = get(filterData, 'flowStatus');
     return (
       <>
         <FormItem label="单据编号">
@@ -99,6 +127,11 @@ class FilterView extends PureComponent {
           {getFieldDecorator('createdDate', {
             initialValue: [get(filterData, 'startDate'), get(filterData, 'endDate')],
           })(<ScopeDatePicker {...scopeDatePickerProps} />)}
+        </FormItem>
+        <FormItem label="单据状态">
+          {getFieldDecorator('flowStatusName', {
+            initialValue: get(flowStatusData, `${flowStatus}.name`, ''),
+          })(<ComboList {...comboListProps} />)}
         </FormItem>
       </>
     );

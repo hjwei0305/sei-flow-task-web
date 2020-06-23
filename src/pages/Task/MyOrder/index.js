@@ -22,7 +22,12 @@ const filterOperation = {
   businessCode: { fieldName: 'businessCode', operation: 'LK', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'businessModelRemark',
-    opoperationer: 'LK',
+    operation: 'LK',
+    dataType: 'String',
+  },
+  flowStatus: {
+    fieldName: 'flowStatus',
+    operation: 'EQ',
     dataType: 'String',
   },
 };
@@ -242,11 +247,11 @@ class MyOrder extends PureComponent {
         dataIndex: 'flowStatus',
         width: 140,
         render: (_, record) => {
-          if (get(record, 'ended') === true) {
-            return <Tag color="blue">审批完成</Tag>;
-          }
           if (get(record, 'manuallyEnd') === true) {
             return <Tag color="magenta">异常结束</Tag>;
+          }
+          if (get(record, 'ended') === true) {
+            return <Tag color="blue">审批完成</Tag>;
           }
           return <Tag color="green">审批中</Tag>;
         },

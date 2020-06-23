@@ -24,7 +24,7 @@ const filterOperation = {
   businessCode: { fieldName: 'flowInstance.businessCode', operation: 'LK', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',
-    opoperationer: 'LK',
+    operation: 'LK',
     dataType: 'String',
   },
 };
