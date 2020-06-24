@@ -334,7 +334,7 @@ class MyOrder extends PureComponent {
     const extTableProps = {
       toolBar: toolBarProps,
       columns,
-      rowKey: 'businessId',
+      rowKey: 'flowInstanceId',
       searchWidth: 280,
       searchPlaceHolder: '输入单据编号、说明关键字查询',
       searchProperties: ['businessCode', 'businessModelRemark'],
