@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:48
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 17:50:22
+ * @Last Modified time: 2020-06-29 09:28:11
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -131,7 +131,7 @@ class ExtAction extends PureComponent {
       <>
         {menusData.length > 0 ? (
           <Dropdown
-            trigger={['hover']}
+            trigger={['hover', 'click']}
             overlay={this.getMenu(menusData, doneItem)}
             className="action-drop-down"
             placement="bottomLeft"
