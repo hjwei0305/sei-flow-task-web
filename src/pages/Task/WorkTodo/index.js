@@ -84,7 +84,7 @@ class WorkTodo extends PureComponent {
     }
     this.tabOpen({
       id: item.id,
-      title: `${item.taskName}-${get(item, 'flowInstance.BusinessCode', null)}`,
+      title: `${item.taskName}-${get(item, 'flowInstance.businessCode', null)}`,
       url,
     });
   };
