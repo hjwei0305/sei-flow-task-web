@@ -22,6 +22,7 @@ const filterOperation = {
   startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
   endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
   businessCode: { fieldName: 'flowInstance.businessCode', operation: 'LK', dataType: 'String' },
+  taskName: { fieldName: 'taskName', operation: 'LK', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',
     operation: 'LK',
@@ -244,7 +245,7 @@ class WorkTodo extends PureComponent {
       {
         title: '单据编号',
         dataIndex: 'flowInstance.businessCode',
-        width: 160,
+        width: 220,
         render: (text, record) => {
           if (record && !isBatch) {
             const num = get(record, 'flowInstance.businessCode', '');
@@ -255,12 +256,12 @@ class WorkTodo extends PureComponent {
                   style={{ padding: 0 }}
                   onClick={() => this.handlerApproveOrder(record)}
                 >
-                  {num}
+                  {`${num}-${get(record, 'taskName')}`}
                 </Button>
               </span>
             );
           }
-          return text;
+          return `${text}-${get(record, 'taskName')}`;
         },
       },
       {
@@ -399,6 +400,7 @@ class WorkTodo extends PureComponent {
       columns,
       checkbox: isBatch,
       searchWidth: 280,
+      storageId: 'c34581a9-6f8c-40f1-9a01-466571aaedb0',
       searchPlaceHolder: '输入单据编号、说明关键字查询',
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
       remotePaging: true,

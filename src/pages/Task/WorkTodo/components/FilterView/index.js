@@ -95,6 +95,11 @@ class FilterView extends PureComponent {
             initialValue: get(filterData, 'businessModelRemark', null),
           })(<Input allowClear placeholder="单据说明关键字" />)}
         </FormItem>
+        <FormItem label="任务名称">
+          {getFieldDecorator('taskName', {
+            initialValue: get(filterData, 'taskName', null),
+          })(<Input allowClear placeholder="任务名称关键字" />)}
+        </FormItem>
         <FormItem label="事项到达">
           {getFieldDecorator('createdDate', {
             initialValue: [get(filterData, 'startDate'), get(filterData, 'endDate')],

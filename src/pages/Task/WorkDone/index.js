@@ -22,6 +22,7 @@ const filterOperation = {
   startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
   endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
   businessCode: { fieldName: 'flowInstance.businessCode', operation: 'LK', dataType: 'String' },
+  flowTaskName: { fieldName: 'flowTaskName', operation: 'LK', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',
     operation: 'LK',
@@ -279,7 +280,10 @@ class WorkDone extends PureComponent {
       {
         title: '单据编号',
         dataIndex: 'flowInstance.businessCode',
-        width: 160,
+        width: 220,
+        render: (text, record) => {
+          return `${text}-${get(record, 'flowTaskName')}`;
+        },
       },
       {
         title: '流程名称',
@@ -360,6 +364,7 @@ class WorkDone extends PureComponent {
       toolBar: toolBarProps,
       columns,
       searchWidth: 280,
+      storageId: '0427430d-1ba0-4c97-b0d3-ded51c9dcb97',
       searchPlaceHolder: '输入单据编号、说明关键字查询',
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
       remotePaging: true,
