@@ -164,7 +164,9 @@ class WorkDone extends PureComponent {
     const data = { id: doneItem.id, opinion: this.flowRevokeOpinion };
     dispatch({
       type: 'taskWorkDone/flowRevokeSubmit',
-      payload: data,
+      payload: {
+        ...data,
+      },
       callback: res => {
         this.confirmModal.update({
           okButtonProps: { loading: false },

@@ -18,10 +18,11 @@ export async function getWorkDoneViewTypeList() {
 /**
  * 撤销已办事项
  */
-export async function flowRevokeSubmit() {
+export async function flowRevokeSubmit(data) {
   const url = `${SERVER_PATH}/flow-service/flowTask/rollBackToHis`;
   return request({
     url,
     method: 'POST',
+    data,
   });
 }
