@@ -17,6 +17,7 @@ export default [
         routes: [
           { path: '/task/workTodo', component: './Task/WorkTodo' },
           { path: '/task/workDone', component: './Task/WorkDone' },
+          { path: '/task/workDone/:code', component: './Task/WorkDone' },
           { path: '/task/myOrder', component: './Task/MyOrder' },
         ],
       },

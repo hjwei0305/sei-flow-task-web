@@ -21,7 +21,7 @@ const { TextArea } = Input;
 const filterOperation = {
   startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
   endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
-  businessCode: { fieldName: 'flowInstance.businessCode', operation: 'LK', dataType: 'String' },
+  businessCode: { fieldName: 'flowInstance.businessCode', operation: 'EQ', dataType: 'String' },
   flowTaskName: { fieldName: 'flowTaskName', operation: 'LK', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',

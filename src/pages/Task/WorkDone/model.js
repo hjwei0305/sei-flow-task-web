@@ -23,16 +23,34 @@ export default modelExtend(model, {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(location => {
-        if (pathMatchRegexp('/task/workDone', location.pathname)) {
+        const match = pathMatchRegexp('/task/workDone', location.pathname);
+        if (match) {
           dispatch({
             type: 'getWorkDoneViewTypeList',
+            payload: {
+              businessCode: '',
+            },
+          });
+        }
+      });
+    },
+    setupQuickLook({ dispatch, history }) {
+      history.listen(location => {
+        const match = pathMatchRegexp('/task/workDone/:code', location.pathname);
+        if (match) {
+          dispatch({
+            type: 'getWorkDoneViewTypeList',
+            payload: {
+              businessCode: match[1],
+            },
           });
         }
       });
     },
   },
   effects: {
-    *getWorkDoneViewTypeList(_, { call, put }) {
+    *getWorkDoneViewTypeList({ payload }, { call, put }) {
+      const { businessCode } = payload;
       const re = yield call(getWorkDoneViewTypeList);
       if (re.success) {
         const viewTypeData = [...re.data];
@@ -45,11 +63,17 @@ export default modelExtend(model, {
             count,
           });
         }
+        const payloadData = {
+          viewTypeData,
+          currentViewType: viewTypeData.length > 0 ? viewTypeData[0] : blankViewType,
+        };
+        if (businessCode) {
+          Object.assign(payloadData, { filterData: { businessCode } });
+        }
         yield put({
           type: 'updateState',
           payload: {
-            viewTypeData,
-            currentViewType: viewTypeData.length > 0 ? viewTypeData[0] : blankViewType,
+            ...payloadData,
           },
         });
       } else {
