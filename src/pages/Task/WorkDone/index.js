@@ -370,14 +370,6 @@ class WorkDone extends PureComponent {
       searchPlaceHolder: '输入单据编号、说明关键字查询',
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
       remotePaging: true,
-      cascadeParams: {
-        modelId: get(currentViewType, 'businessModeId', null),
-        filters: filters.filter,
-      },
-      store: {
-        type: 'POST',
-        url: `${SERVER_PATH}/flow-service/flowHistory/listValidFlowHistory`,
-      },
       onTableRef: ref => (this.tableRef = ref),
       sort: {
         field: {
@@ -389,6 +381,18 @@ class WorkDone extends PureComponent {
         },
       },
     };
+    if (viewTypeData.length > 0) {
+      Object.assign(extTableProps, {
+        store: {
+          type: 'POST',
+          url: `${SERVER_PATH}/flow-service/flowHistory/listValidFlowHistory`,
+        },
+        cascadeParams: {
+          modelId: get(currentViewType, 'businessModeId', null),
+          filters: filters.filter,
+        },
+      });
+    }
     const filterViewProps = {
       showFilter,
       filterData,

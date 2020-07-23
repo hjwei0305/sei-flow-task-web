@@ -39,7 +39,7 @@ export default modelExtend(model, {
         const match = pathMatchRegexp('/task/workDone/:code', location.pathname);
         const { sessionId = '' } = location.query;
         if (match) {
-          storage.sessionStorage.set(constants.CONST_GLOBAL.TOKEN_KEY, sessionId);
+          sessionId && storage.sessionStorage.set(constants.CONST_GLOBAL.TOKEN_KEY, sessionId);
           dispatch({
             type: 'getWorkDoneViewTypeList',
             payload: {
