@@ -37,9 +37,9 @@ export default modelExtend(model, {
     setupQuickLook({ dispatch, history }) {
       history.listen(location => {
         const match = pathMatchRegexp('/task/workDone/:code', location.pathname);
-        const { sid = '' } = location.query;
+        const { sessionId = '' } = location.query;
         if (match) {
-          storage.sessionStorage.set(constants.CONST_GLOBAL.TOKEN_KEY, sid);
+          storage.sessionStorage.set(constants.CONST_GLOBAL.TOKEN_KEY, sessionId);
           dispatch({
             type: 'getWorkDoneViewTypeList',
             payload: {
