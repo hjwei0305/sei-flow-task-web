@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:48
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 09:04:01
+ * @Last Modified time: 2020-08-04 15:00:33
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -53,7 +53,11 @@ class ExtAction extends PureComponent {
   initActionMenus = () => {
     const { doneItem } = this.props;
     const menus = menuData();
-    if (doneItem.canManuallyEnd === true) {
+    if (
+      doneItem.canManuallyEnd === true &&
+      doneItem.manuallyEnd === false &&
+      doneItem.ended === false
+    ) {
       menus.forEach(m => {
         if (m.key === TASK_WORK_ACTION.FLOW_END) {
           Object.assign(m, { disabled: false });
