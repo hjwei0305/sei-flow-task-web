@@ -252,9 +252,9 @@ class MyOrder extends PureComponent {
             return <Tag color="magenta">异常结束</Tag>;
           }
           if (get(record, 'ended') === true) {
-            return <Tag color="blue">审批完成</Tag>;
+            return <Tag color="green">审批完成</Tag>;
           }
-          return <Tag color="green">审批中</Tag>;
+          return <Tag color="blue">审批中</Tag>;
         },
       },
       {
