@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, message, notification } from 'antd';
+import { Button, notification } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { message } from 'suid';
 
 // if pwa is true
 if (process.env.NODE_ENV === 'production') {

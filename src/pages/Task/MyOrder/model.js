@@ -1,5 +1,4 @@
-import { message } from 'antd';
-import { utils } from 'suid';
+import { utils, message } from 'suid';
 import { getMyOrderViewTypeList, flowEndSubmit } from './service';
 
 const { pathMatchRegexp, dvaModel } = utils;
