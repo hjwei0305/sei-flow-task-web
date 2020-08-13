@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-23 16:46:18
+ * @Last Modified time: 2020-08-13 17:24:11
  */
 import { base } from '../../public/app.config.json';
 
@@ -68,6 +68,12 @@ const FLOW_STATUS = {
   ABORT: 'ABORT',
 };
 
+const PRIORITY = {
+  '1': { title: '驳回', color: 'magenta' },
+  '2': { title: '撤回', color: 'volcano' },
+  '3': { title: '加急', color: 'red' },
+};
+
 export default {
   APP_BASE,
   LOCAL_PATH,
@@ -76,4 +82,5 @@ export default {
   LOGIN_STATUS,
   TASK_WORK_ACTION,
   FLOW_STATUS,
+  PRIORITY,
 };

@@ -16,7 +16,7 @@ import styles from './index.less';
 
 const { eventBus } = utils;
 
-const { SERVER_PATH, TASK_WORK_ACTION } = constants;
+const { SERVER_PATH, TASK_WORK_ACTION, PRIORITY } = constants;
 
 const filterOperation = {
   startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
@@ -228,6 +228,17 @@ class WorkTodo extends PureComponent {
     return filters;
   };
 
+  renderPriority = item => {
+    const priority = PRIORITY[item.priority];
+    if (priority) {
+      return (
+        <Tag color={priority.color} style={{ marginLeft: 4 }}>
+          {priority.title}
+        </Tag>
+      );
+    }
+  };
+
   render() {
     const { isBatch, checkedKeys } = this.state;
     const { taskWorkTodo, loading, location } = this.props;
@@ -245,7 +256,7 @@ class WorkTodo extends PureComponent {
       {
         title: '单据编号',
         dataIndex: 'flowInstance.businessCode',
-        width: 220,
+        width: 260,
         render: (text, record) => {
           if (record && !isBatch) {
             const num = get(record, 'flowInstance.businessCode', '');
@@ -257,17 +268,23 @@ class WorkTodo extends PureComponent {
                   onClick={() => this.handlerApproveOrder(record)}
                 >
                   {`${num}-${get(record, 'taskName')}`}
+                  {this.renderPriority(record)}
                 </Button>
               </span>
             );
           }
-          return `${text}-${get(record, 'taskName')}`;
+          return (
+            <>
+              {`${text}-${get(record, 'taskName')}`}
+              {this.renderPriority(record)}
+            </>
+          );
         },
       },
       {
         title: '流程名称',
         dataIndex: 'flowName',
-        width: 180,
+        width: 220,
         render: flowName => {
           return <span title={flowName}>{flowName}</span>;
         },
@@ -287,7 +304,7 @@ class WorkTodo extends PureComponent {
       {
         title: '创建者',
         dataIndex: 'flowInstance.creatorAccount',
-        width: 200,
+        width: 100,
         render: (_text, record) => {
           if (record) {
             const creatorName = get(record, 'flowInstance.creatorName', '');
