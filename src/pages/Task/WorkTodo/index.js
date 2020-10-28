@@ -47,7 +47,7 @@ class WorkTodo extends PureComponent {
     const lookUrl =
       get(doneItem, 'flowInstance.flowDefVersion.flowDefination.flowType.lookUrl') ||
       get(doneItem, 'flowInstance.flowDefVersion.flowDefination.flowType.businessModel.lookUrl');
-    let url = formartUrl(doneItem.webBaseAddressAbsolute, lookUrl);
+    let url = formartUrl(doneItem.lookWebBaseAddress, lookUrl);
     const flowInstanceBusinessId = get(doneItem, 'flowInstance.businessId', null);
     const flowInstanceBusinessCode = get(doneItem, 'flowInstance.businessCode', null);
     if (url.indexOf('?') === -1) {
