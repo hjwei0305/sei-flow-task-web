@@ -73,6 +73,11 @@ const PRIORITY = {
   '2': { title: '撤回', color: 'volcano' },
   '3': { title: '加急', color: 'red' },
 };
+const WARNINGSTATUS = {
+  'normal': { title: '正常', color: 'green' },
+  'warning': { title: '预警', color: 'volcano' },
+  'timeou': { title: '超时', color: 'red' },
+};
 
 export default {
   APP_BASE,
@@ -83,4 +88,5 @@ export default {
   TASK_WORK_ACTION,
   FLOW_STATUS,
   PRIORITY,
+  WARNINGSTATUS,
 };

@@ -16,7 +16,7 @@ import styles from './index.less';
 
 const { eventBus } = utils;
 
-const { SERVER_PATH, TASK_WORK_ACTION, PRIORITY } = constants;
+const { SERVER_PATH, TASK_WORK_ACTION, PRIORITY, WARNINGSTATUS } = constants;
 
 const filterOperation = {
   startDate: { fieldName: 'startDate', operation: 'GE', dataType: 'Date' },
@@ -239,6 +239,17 @@ class WorkTodo extends PureComponent {
     }
   };
 
+  renderWarningStatus = () => {
+    const warningStatus = WARNINGSTATUS[item.warningStatus];
+    if (warningStatus && warningStatus !== 'normal') {
+      return (
+        <Tag color={warningStatus.color} style={{ marginLeft: 4 }}>
+          {warningStatus.title}
+        </Tag>
+      );
+    }
+  };
+
   render() {
     const { isBatch, checkedKeys } = this.state;
     const { taskWorkTodo, loading, location } = this.props;
@@ -269,6 +280,7 @@ class WorkTodo extends PureComponent {
                 >
                   {`${num}-${get(record, 'taskName')}`}
                   {this.renderPriority(record)}
+                  {this.renderWarningStatus(record)}
                 </Button>
               </span>
             );
@@ -277,6 +289,7 @@ class WorkTodo extends PureComponent {
             <>
               {`${text}-${get(record, 'taskName')}`}
               {this.renderPriority(record)}
+              {this.renderWarningStatus(record)}
             </>
           );
         },
@@ -307,6 +320,31 @@ class WorkTodo extends PureComponent {
         width: 100,
         render: (_text, record) => {
           if (record) {
+            const creatorName = get(record, 'flowInstance.creatorName', '');
+            const creatorAccount = get(record, 'flowInstance.creatorAccount', '');
+            return <span title={creatorAccount}>{creatorName}</span>;
+          }
+          return null;
+        },
+      },
+      {
+        title: '额定工时（小时）',
+        dataIndex: 'timing',
+        width: 100,
+        render: timing => {
+          if (!timing) {
+            return '-';
+          }
+          return timing;
+        },
+      },
+      {
+        title: '预警',
+        dataIndex: 'warningStatus',
+        width: 100,
+        render: warningStatus => {
+          const warningStatus
+          if (warningStatus) {
             const creatorName = get(record, 'flowInstance.creatorName', '');
             const creatorAccount = get(record, 'flowInstance.creatorAccount', '');
             return <span title={creatorAccount}>{creatorName}</span>;
