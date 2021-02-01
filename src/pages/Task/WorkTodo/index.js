@@ -267,7 +267,7 @@ class WorkTodo extends PureComponent {
       {
         title: '单据编号',
         dataIndex: 'flowInstance.businessCode',
-        width: 260,
+        width: 280,
         render: (text, record) => {
           if (record && !isBatch) {
             const num = get(record, 'flowInstance.businessCode', '');
