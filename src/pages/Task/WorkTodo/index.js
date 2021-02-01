@@ -239,7 +239,7 @@ class WorkTodo extends PureComponent {
     }
   };
 
-  renderWarningStatus = () => {
+  renderWarningStatus = item => {
     const warningStatus = WARNINGSTATUS[item.warningStatus];
     if (warningStatus && warningStatus !== 'normal') {
       return (
