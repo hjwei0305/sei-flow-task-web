@@ -241,7 +241,7 @@ class WorkTodo extends PureComponent {
 
   renderWarningStatus = item => {
     const warningStatus = WARNINGSTATUS[item.warningStatus];
-    if (warningStatus && warningStatus !== 'normal') {
+    if (warningStatus && item.warningStatus !== 'normal') {
       return (
         <Tag color={warningStatus.color} style={{ marginLeft: 4 }}>
           {warningStatus.title}
