@@ -339,20 +339,6 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '预警',
-        dataIndex: 'warningStatus',
-        width: 100,
-        render: warningStatus => {
-          const warningStatus
-          if (warningStatus) {
-            const creatorName = get(record, 'flowInstance.creatorName', '');
-            const creatorAccount = get(record, 'flowInstance.creatorAccount', '');
-            return <span title={creatorAccount}>{creatorName}</span>;
-          }
-          return null;
-        },
-      },
-      {
         title: '事项到达',
         dataIndex: 'createdDate',
         width: 100,
