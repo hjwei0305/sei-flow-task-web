@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-14 19:17:59
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-18 17:43:52
+ * @Last Modified time: 2021-05-24 16:03:23
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -20,14 +20,14 @@ class UserSelect extends PureComponent {
     flowTaskType: PropTypes.string,
     solidifyFlow: PropTypes.bool,
     onUserSelectChange: PropTypes.func,
-  }
+  };
 
   static defaultProps = {
     dataSource: [],
     flowTaskType: '',
   };
 
-  handlerUserSelectChange = (checkedUserList) => {
+  handlerUserSelectChange = checkedUserList => {
     const { id, onUserSelectChange, nodeId } = this.props;
     if (onUserSelectChange) {
       onUserSelectChange(id, nodeId, checkedUserList);
@@ -39,15 +39,8 @@ class UserSelect extends PureComponent {
   };
 
   renderUserList = () => {
-    const {
-      flowTaskType = '',
-      uiType,
-      dataSource,
-      title,
-      solidifyFlow,
-      infoType,
-    } = this.props;
-    if (flowTaskType.toLowerCase() === 'pooltask') {
+    const { flowTaskType = '', uiType, dataSource, title, solidifyFlow, infoType } = this.props;
+    if (flowTaskType && flowTaskType.toLowerCase() === 'pooltask') {
       return (
         <Card title={title} bordered={false} size="small">
           <Alert
@@ -63,13 +56,7 @@ class UserSelect extends PureComponent {
     if (solidifyFlow) {
       return (
         <Card title={title} bordered={false} size="small">
-          <Alert
-            message="同意"
-            description="固化流程,不需要选办理人"
-            type="info"
-            showIcon
-            banner
-          />
+          <Alert message="同意" description="固化流程,不需要选办理人" type="info" showIcon banner />
         </Card>
       );
     }
@@ -114,21 +101,19 @@ class UserSelect extends PureComponent {
       checkbox: solidifyFlow ? false : uiType === 'checkbox',
       itemField: {
         avatar: uiType === 'checkbox' || solidifyFlow ? undefined : this.renderSingleAvatar,
-        title: (item) => (
+        title: item => (
           <>
             {item.name}
             <span style={{ fontSize: 12, marginLeft: 8, color: '#999' }}>{`(${item.code})`}</span>
           </>
         ),
-        description: (item) =>
+        description: item =>
           item.organizationName ? (
             <span style={{ fontSize: 12 }}>{item.organizationName}</span>
           ) : (
-              ''
-            ),
-        extra: (item) => (
-          <span style={{ fontSize: 12, marginRight: 8 }}>{item.positionName}</span>
-        ),
+            ''
+          ),
+        extra: item => <span style={{ fontSize: 12, marginRight: 8 }}>{item.positionName}</span>,
       },
       showArrow: false,
       onSelectChange: this.handlerUserSelectChange,
