@@ -357,7 +357,7 @@ class WorkTodo extends PureComponent {
       },
     ];
     if (!isBatch) {
-      columns.unshift({
+      const col = {
         key: 'operation',
         width: 50,
         align: 'center',
@@ -373,7 +373,8 @@ class WorkTodo extends PureComponent {
             </span>
           );
         },
-      });
+      };
+      columns.unshift(col);
     }
     const toolBarProps = {
       layout: { leftSpan: 14, rightSpan: 10 },

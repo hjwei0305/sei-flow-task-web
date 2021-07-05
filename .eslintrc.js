@@ -13,7 +13,6 @@ module.exports = {
     'import/no-dynamic-require': 0,
     'import/order': 2,
     'react/prop-types': 0,
-    'react/prop-types': 0,
     'react/jsx-props-no-spreading': 0,
     'react/static-property-placement': 0,
     'react/forbid-prop-types': 0,
@@ -38,5 +37,7 @@ module.exports = {
     'implicit-arrow-linebreak': 0,
     'no-unused-expressions': 0,
     'consistent-return': 0,
+    'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
+    'react-hooks/exhaustive-deps': 'warn', // 检查 effect 的依赖
   },
 };
