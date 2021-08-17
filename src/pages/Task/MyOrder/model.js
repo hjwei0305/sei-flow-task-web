@@ -6,7 +6,7 @@ const { modelExtend, model } = dvaModel;
 
 const blankViewType = {
   businessModeId: null,
-  businessModelName: '暂无可显示的单据',
+  businessModelName: formatMessage({id: 'flowtask_000051', defaultMessage: '暂无可显示的单据'}),
   count: 0,
 };
 
@@ -40,7 +40,7 @@ export default modelExtend(model, {
         if (viewTypeData.length > 1) {
           viewTypeData.unshift({
             businessModeId: null,
-            businessModelName: '全部单据',
+            businessModelName: formatMessage({id: 'flowtask_000052', defaultMessage: '全部单据'}),
             count,
           });
         }
@@ -60,7 +60,7 @@ export default modelExtend(model, {
       const re = yield call(flowEndSubmit, payload);
       message.destroy();
       if (re.success) {
-        message.success('处理成功');
+        message.success(formatMessage({id: 'flowtask_000013', defaultMessage: '处理成功'}));
       } else {
         message.error(re.message);
       }

@@ -106,7 +106,7 @@ class BatchModal extends PureComponent {
     const { visible, submitting, batchNextNodes } = this.props;
     const { canSubmit } = this.state;
     const extModalProps = {
-      title: '批量处理',
+      title: formatMessage({id: 'flowtask_000026', defaultMessage: '批量处理'}),
       wrapClassName: cls(styles['batch-modal-box']),
       width: 720,
       bodyStyle: { height: 480, padding: 0 },

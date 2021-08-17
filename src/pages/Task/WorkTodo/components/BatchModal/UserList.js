@@ -44,8 +44,8 @@ class UserSelect extends PureComponent {
       return (
         <Card title={title} bordered={false} size="small">
           <Alert
-            message="同意"
-            description="工作池任务,不用选择办理人"
+            message={formatMessage({id: 'flowtask_000039', defaultMessage: '同意'})}
+            description={formatMessage({id: 'flowtask_000040', defaultMessage: '工作池任务,不用选择办理人'})}
             type="info"
             showIcon
             banner
@@ -56,7 +56,7 @@ class UserSelect extends PureComponent {
     if (solidifyFlow) {
       return (
         <Card title={title} bordered={false} size="small">
-          <Alert message="同意" description="固化流程,不需要选办理人" type="info" showIcon banner />
+          <Alert message={formatMessage({id: 'flowtask_000039', defaultMessage: '同意'})} description={formatMessage({id: 'flowtask_000041', defaultMessage: '固化流程,不需要选办理人'})} type="info" showIcon banner />
         </Card>
       );
     }
@@ -64,8 +64,8 @@ class UserSelect extends PureComponent {
       return (
         <Card title={title} bordered={false} size="small">
           <Alert
-            message="同意"
-            description="会签未结束,不需要选办理人"
+            message={formatMessage({id: 'flowtask_000039', defaultMessage: '同意'})}
+            description={formatMessage({id: 'flowtask_000042', defaultMessage: '会签未结束,不需要选办理人'})}
             type="info"
             showIcon
             banner
@@ -77,8 +77,8 @@ class UserSelect extends PureComponent {
       return (
         <Card title={title} bordered={false} size="small">
           <Alert
-            message="同意"
-            description="流程下一步即将结束,不需要选办理人"
+            message={formatMessage({id: 'flowtask_000039', defaultMessage: '同意'})}
+            description={formatMessage({id: 'flowtask_000043', defaultMessage: '流程下一步即将结束,不需要选办理人'})}
             type="info"
             showIcon
             banner

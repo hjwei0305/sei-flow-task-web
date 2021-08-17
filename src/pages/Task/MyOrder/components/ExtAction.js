@@ -20,17 +20,17 @@ const { FlowHistoryButton } = WorkFlow;
 
 const menuData = () => [
   {
-    title: '查看单据',
+    title: formatMessage({id: 'flowtask_000037', defaultMessage: '查看单据'}),
     key: TASK_WORK_ACTION.VIEW_ORDER,
     disabled: false,
   },
   {
-    title: '审批历史',
+    title: formatMessage({id: 'flowtask_000038', defaultMessage: '审批历史'}),
     key: TASK_WORK_ACTION.FLOW_HISTORY,
     disabled: false,
   },
   {
-    title: '终止审批',
+    title: formatMessage({id: 'flowtask_000063', defaultMessage: '终止审批'}),
     key: TASK_WORK_ACTION.FLOW_END,
     disabled: true,
   },

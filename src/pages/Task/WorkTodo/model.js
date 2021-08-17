@@ -11,7 +11,7 @@ const { modelExtend, model } = dvaModel;
 
 const blankViewType = {
   businessModeId: null,
-  businessModelName: '暂无待办事项',
+  businessModelName: formatMessage({id: 'flowtask_000010', defaultMessage: '暂无待办事项'}),
   count: 0,
 };
 
@@ -48,10 +48,10 @@ export default modelExtend(model, {
       let re;
       if (batchApproval) {
         re = yield call(getBatchWorkTodoViewTypeList, { batchApproval });
-        blankViewType.businessModelName = '暂无可批量处理的待办事项';
+        blankViewType.businessModelName ={formatMessage({id: 'flowtask_000011', defaultMessage: '暂无可批量处理的待办事项'})};
       } else {
         re = yield call(getWorkTodoViewTypeList);
-        blankViewType.businessModelName = '暂无待办事项';
+        blankViewType.businessModelName ={formatMessage({id: 'flowtask_000010', defaultMessage: '暂无待办事项'})};
       }
       if (re.success) {
         const viewTypeData = [...re.data];
@@ -60,7 +60,7 @@ export default modelExtend(model, {
         if (viewTypeData.length > 1) {
           viewTypeData.unshift({
             businessModeId: null,
-            businessModelName: '全部待办事项',
+            businessModelName: formatMessage({id: 'flowtask_000012', defaultMessage: '全部待办事项'}),
             count,
           });
         }
@@ -103,7 +103,7 @@ export default modelExtend(model, {
       const re = yield call(submitBatch, payload);
       message.destroy();
       if (re.success) {
-        message.success('处理成功');
+        message.success(formatMessage({id: 'flowtask_000013', defaultMessage: '处理成功'}));
         yield put({
           type: 'updateState',
           payload: {
