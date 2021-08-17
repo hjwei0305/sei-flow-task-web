@@ -1,4 +1,5 @@
 import { utils, message } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import {
   getWorkTodoViewTypeList,
   getBatchWorkTodoViewTypeList,
@@ -48,10 +49,10 @@ export default modelExtend(model, {
       let re;
       if (batchApproval) {
         re = yield call(getBatchWorkTodoViewTypeList, { batchApproval });
-        blankViewType.businessModelName ={formatMessage({id: 'flowtask_000011', defaultMessage: '暂无可批量处理的待办事项'})};
+        blankViewType.businessModelName =formatMessage({id: 'flowtask_000011', defaultMessage: '暂无可批量处理的待办事项'});
       } else {
         re = yield call(getWorkTodoViewTypeList);
-        blankViewType.businessModelName ={formatMessage({id: 'flowtask_000010', defaultMessage: '暂无待办事项'})};
+        blankViewType.businessModelName =formatMessage({id: 'flowtask_000010', defaultMessage: '暂无待办事项'});
       }
       if (re.success) {
         const viewTypeData = [...re.data];

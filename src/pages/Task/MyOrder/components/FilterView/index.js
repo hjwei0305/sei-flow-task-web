@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { get, omit, isEqual } from 'lodash';
 import { Drawer, Form, Button, Input } from 'antd';
 import { ScrollBar, ScopeDatePicker, ComboList } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const FormItem = Form.Item;

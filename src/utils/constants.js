@@ -4,6 +4,7 @@
  * @Last Modified by: Eason
  * @Last Modified time: 2020-08-13 17:24:11
  */
+import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
 
 /** 服务接口基地址，默认是当前站点的域名地址 */

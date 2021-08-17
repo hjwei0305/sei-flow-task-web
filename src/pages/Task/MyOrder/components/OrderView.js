@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './OrderView.less';
 
 const { getUUID } = utils;

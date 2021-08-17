@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { isEmpty, uniq, isEqual } from 'lodash';
 import { Collapse } from 'antd';
 import { ExtModal, ScrollBar } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import UserList from './UserList';
 import styles from './index.less';
 

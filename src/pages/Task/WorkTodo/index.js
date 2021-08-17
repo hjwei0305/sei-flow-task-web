@@ -8,6 +8,7 @@ import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Drawer } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl, taskColor } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import BatchModal from './components/BatchModal';

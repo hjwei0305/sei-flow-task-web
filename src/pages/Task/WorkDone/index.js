@@ -7,6 +7,7 @@ import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Input, Alert, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon, Animate } from 'suid';
 import { constants, formartUrl } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import FilterView from './components/FilterView';

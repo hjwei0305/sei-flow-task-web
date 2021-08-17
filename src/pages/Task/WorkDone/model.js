@@ -1,4 +1,5 @@
 import { utils, message } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { getWorkDoneViewTypeList, flowRevokeSubmit } from './service';
 
 const { pathMatchRegexp, dvaModel, storage, constants } = utils;

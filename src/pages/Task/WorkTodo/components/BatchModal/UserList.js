@@ -8,6 +8,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Radio, Card } from 'antd';
 import { ListCard } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 
 class UserSelect extends PureComponent {
   static propTypes = {

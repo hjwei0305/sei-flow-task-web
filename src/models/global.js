@@ -3,6 +3,7 @@ import { stringify } from 'qs';
 import { utils, message } from 'suid';
 import { userUtils, constants as localConstants } from '@/utils';
 import { login, getAuthorizedFeatures, getVerifyCode } from '@/services/api';
+import { formatMessage } from 'umi-plugin-react/locale';
 
 const { setCurrentAuth, setCurrentPolicy, setSessionId, setCurrentUser } = userUtils;
 
