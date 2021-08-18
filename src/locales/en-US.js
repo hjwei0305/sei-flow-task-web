@@ -257,5 +257,9 @@ export default {
 
   "flowtask_000111":"please click",
 
-  "flowtask_000112":"button or manually refresh the page"
+  "flowtask_000112":"button or manually refresh the page",
+
+  "flowtask_000113":"I want to batch processing",
+
+  "flowtask_000114":"Exit batch processing"
 };

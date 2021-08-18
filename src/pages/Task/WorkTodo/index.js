@@ -392,7 +392,7 @@ class WorkTodo extends PureComponent {
             loading={loading.effects['taskWorkTodo/getWorkTodoViewTypeList']}
             className="btn-item"
           >
-            {isBatch ? '退出批量处理' : '我要批量处理'}
+            {isBatch ? formatMessage({id: 'flowtask_000113', defaultMessage: '我要批量处理'}) : formatMessage({id: 'flowtask_000114', defaultMessage: '退出批量处理'})}
           </Button>
           <Button onClick={this.handlerRefreshData} className="btn-item">
             <FormattedMessage id="global.refresh" defaultMessage="刷新" />
