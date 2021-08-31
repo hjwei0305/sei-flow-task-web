@@ -58,7 +58,7 @@ class WorkTodo extends PureComponent {
     }
     this.tabOpen({
       id: flowInstanceBusinessId,
-      title: `{formatMessage({id: 'flowtask_000014', defaultMessage: '单据详情-'})}${flowInstanceBusinessCode}`,
+      title: `${formatMessage({id: 'flowtask_000014', defaultMessage: '单据详情-'})}${flowInstanceBusinessCode}`,
       url,
     });
   };
@@ -406,7 +406,7 @@ class WorkTodo extends PureComponent {
             style={{ position: 'absolute' }}
             visible={hasSelected}
           >
-            <span className={cls('select')}>{`{formatMessage({id: 'flowtask_000023', defaultMessage: '已选择'})} ${checkedKeys.length} {formatMessage({id: 'flowtask_000024', defaultMessage: '项'})}`}</span>
+            <span className={cls('select')}>{`${formatMessage({id: 'flowtask_000023', defaultMessage: '已选择'})} ${checkedKeys.length} {formatMessage({id: 'flowtask_000024', defaultMessage: '项'})}`}</span>
             <Button
               className="btn-item"
               type="danger"

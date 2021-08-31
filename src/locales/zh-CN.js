@@ -146,6 +146,6 @@ export default {
   "flowtask_000110":"有新内容",
   "flowtask_000111":"请点击",
   "flowtask_000112":"按钮或者手动刷新页面",
-  "flowtask_000113":"我要批量处理",
-  "flowtask_000114":"退出批量处理"
+  "flowtask_000113":"退出批量处理",
+  "flowtask_000114":"我要批量处理"
 };

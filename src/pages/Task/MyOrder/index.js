@@ -57,7 +57,7 @@ class MyOrder extends PureComponent {
     }
     this.tabOpen({
       id: flowInstanceBusinessId,
-      title: `{formatMessage({id: 'flowtask_000014', defaultMessage: '单据详情-'})}${flowInstanceBusinessCode}`,
+      title: `${formatMessage({id: 'flowtask_000014', defaultMessage: '单据详情-'})}${flowInstanceBusinessCode}`,
       url,
     });
   };
