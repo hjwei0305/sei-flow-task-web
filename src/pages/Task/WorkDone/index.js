@@ -288,6 +288,20 @@ class WorkDone extends PureComponent {
         },
       },
       {
+        title: '单据状态',
+        dataIndex: 'flowStatus',
+        width: 140,
+        render: (_, record) => {
+          if (get(record, 'flowInstance.manuallyEnd') === true) {
+            return <Tag color="magenta">异常结束</Tag>;
+          }
+          if (get(record, 'flowInstance.ended') === true) {
+            return <Tag color="green">审批完成</Tag>;
+          }
+          return <Tag color="blue">审批中</Tag>;
+        },
+      },
+      {
         title: '流程名称',
         dataIndex: 'flowName',
         width: 180,
