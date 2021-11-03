@@ -8,6 +8,7 @@ import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Drawer } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl, taskColor } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import BatchModal from './components/BatchModal';
@@ -57,7 +58,10 @@ class WorkTodo extends PureComponent {
     }
     this.tabOpen({
       id: flowInstanceBusinessId,
-      title: `单据详情-${flowInstanceBusinessCode}`,
+      title: `${formatMessage({
+        id: 'flowtask_000014',
+        defaultMessage: '单据详情-',
+      })}${flowInstanceBusinessCode}`,
       url,
     });
   };
@@ -265,7 +269,7 @@ class WorkTodo extends PureComponent {
     const filters = this.getFilters();
     const columns = [
       {
-        title: '单据编号',
+        title: formatMessage({ id: 'flowtask_000015', defaultMessage: '单据编号' }),
         dataIndex: 'flowInstance.businessCode',
         width: 280,
         render: (text, record) => {
@@ -295,7 +299,7 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '流程名称',
+        title: formatMessage({ id: 'flowtask_000016', defaultMessage: '流程名称' }),
         dataIndex: 'flowName',
         width: 220,
         render: flowName => {
@@ -303,7 +307,7 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '单据说明',
+        title: formatMessage({ id: 'flowtask_000017', defaultMessage: '单据说明' }),
         dataIndex: 'flowInstance.businessModelRemark',
         width: 480,
         render: (_text, record) => {
@@ -315,7 +319,7 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '创建者',
+        title: formatMessage({ id: 'flowtask_000018', defaultMessage: '创建者' }),
         dataIndex: 'flowInstance.creatorAccount',
         width: 100,
         render: (_text, record) => {
@@ -328,7 +332,7 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '额定工时（小时）',
+        title: formatMessage({ id: 'flowtask_000019', defaultMessage: '额定工时（小时）' }),
         dataIndex: 'timing',
         width: 100,
         render: timing => {
@@ -339,7 +343,7 @@ class WorkTodo extends PureComponent {
         },
       },
       {
-        title: '事项到达',
+        title: formatMessage({ id: 'flowtask_000020', defaultMessage: '事项到达' }),
         dataIndex: 'createdDate',
         width: 100,
         render: (_text, record) => {
@@ -362,7 +366,7 @@ class WorkTodo extends PureComponent {
         width: 50,
         align: 'center',
         dataIndex: 'id',
-        title: '操作',
+        title: formatMessage({ id: 'flowtask_000021', defaultMessage: '操作' }),
         fixed: 'left',
         className: 'action',
         required: true,
@@ -391,7 +395,9 @@ class WorkTodo extends PureComponent {
             loading={loading.effects['taskWorkTodo/getWorkTodoViewTypeList']}
             className="btn-item"
           >
-            {isBatch ? '退出批量处理' : '我要批量处理'}
+            {isBatch
+              ? formatMessage({ id: 'flowtask_000113', defaultMessage: '我要批量处理' })
+              : formatMessage({ id: 'flowtask_000114', defaultMessage: '退出批量处理' })}
           </Button>
           <Button onClick={this.handlerRefreshData} className="btn-item">
             <FormattedMessage id="global.refresh" defaultMessage="刷新" />
@@ -405,14 +411,19 @@ class WorkTodo extends PureComponent {
             style={{ position: 'absolute' }}
             visible={hasSelected}
           >
-            <span className={cls('select')}>{`已选择 ${checkedKeys.length} 项`}</span>
+            <span className={cls('select')}>{`${formatMessage({
+              id: 'flowtask_000023',
+              defaultMessage: '已选择',
+            })} ${
+              checkedKeys.length
+            } {formatMessage({id: 'flowtask_000024', defaultMessage: '项'})}`}</span>
             <Button
               className="btn-item"
               type="danger"
               onClick={this.handlerCancelBatchApprove}
               disabled={loading.effects['taskWorkTodo/removeAssignedFeatureItem']}
             >
-              取消
+              {formatMessage({ id: 'flowtask_000025', defaultMessage: '取消' })}
             </Button>
             <Button
               className="btn-item"
@@ -420,7 +431,7 @@ class WorkTodo extends PureComponent {
               onClick={this.handlerBatchApprove}
               loading={loading.effects['taskWorkTodo/getBatchNextNodeList']}
             >
-              批量处理
+              {formatMessage({ id: 'flowtask_000026', defaultMessage: '批量处理' })}
             </Button>
           </Drawer>
         </>
@@ -432,7 +443,9 @@ class WorkTodo extends PureComponent {
             onClick={this.handlerShowFilter}
           >
             <ExtIcon type="filter" style={{ fontSize: 16 }} />
-            <span className="lable">过滤</span>
+            <span className="lable">
+              {formatMessage({ id: 'flowtask_000027', defaultMessage: '过滤' })}
+            </span>
           </span>
         </>
       ),
@@ -443,7 +456,10 @@ class WorkTodo extends PureComponent {
       checkbox: isBatch,
       searchWidth: 280,
       storageId: 'c34581a9-6f8c-40f1-9a01-466571aaedb0',
-      searchPlaceHolder: '输入单据编号、说明关键字查询',
+      searchPlaceHolder: formatMessage({
+        id: 'flowtask_000028',
+        defaultMessage: '输入单据编号、说明关键字查询',
+      }),
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
       remotePaging: true,
       cascadeParams: {

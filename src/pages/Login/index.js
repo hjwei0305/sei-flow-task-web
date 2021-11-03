@@ -73,7 +73,7 @@ class LoginForm extends PureComponent {
           <div className="login-logo">
             <div className="login-name">
               {title}
-              -用户登录
+              {formatMessage({ id: 'flowtask_000064', defaultMessage: '-用户登录' })}
             </div>
           </div>
           <Form style={{ maxWidth: '300px' }}>
@@ -94,7 +94,10 @@ class LoginForm extends PureComponent {
                     autoFocus="autoFocus"
                     size="large"
                     prefix={<ExtIcon antd type="safety" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    placeholder="租户账号"
+                    placeholder={formatMessage({
+                      id: 'flowtask_000066',
+                      defaultMessage: '租户账号',
+                    })}
                   />,
                 )}
               </Item>
@@ -123,13 +126,21 @@ class LoginForm extends PureComponent {
             </Item>
             <Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请输入密码!' }],
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'flowtask_000069',
+                      defaultMessage: '请输入密码!',
+                    }),
+                  },
+                ],
               })(
                 <Input
                   prefix={<ExtIcon antd type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   size="large"
                   type="password"
-                  placeholder="密码"
+                  placeholder={formatMessage({ id: 'flowtask_000070', defaultMessage: '密码' })}
                 />,
               )}
             </Item>
@@ -140,7 +151,10 @@ class LoginForm extends PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: '请输入验证码!',
+                      message: formatMessage({
+                        id: 'flowtask_000071',
+                        defaultMessage: '请输入验证码!',
+                      }),
                     },
                   ],
                 })(
@@ -148,8 +162,14 @@ class LoginForm extends PureComponent {
                     size="large"
                     disabled={loading.global}
                     prefix={<ExtIcon antd type="code" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    placeholder="验证码"
-                    addonAfter={<img alt="验证码" onClick={this.handleVertify} src={verifyCode} />}
+                    placeholder={formatMessage({ id: 'flowtask_000072', defaultMessage: '验证码' })}
+                    addonAfter={
+                      <img
+                        alt={formatMessage({ id: 'flowtask_000072', defaultMessage: '验证码' })}
+                        onClick={this.handleVertify}
+                        src={verifyCode}
+                      />
+                    }
                   />,
                 )}
               </Item>
@@ -160,7 +180,9 @@ class LoginForm extends PureComponent {
                 rules: [{ required: true }],
               })(
                 <Select size="large" onChange={this.handlerLocaleChange}>
-                  <Option value="zh-CN">简体中文</Option>
+                  <Option value="zh-CN">
+                    {formatMessage({ id: 'flowtask_000073', defaultMessage: '简体中文' })}
+                  </Option>
                   <Option value="en-US">English</Option>
                 </Select>,
               )}
@@ -175,7 +197,7 @@ class LoginForm extends PureComponent {
                 style={{ width: '100%' }}
                 loading={loading.effects['global/login']}
               >
-                登录
+                {formatMessage({ id: 'flowtask_000074', defaultMessage: '登录' })}
               </Button>
             </Item>
           </Form>

@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { isEmpty, uniq, isEqual } from 'lodash';
 import { Collapse } from 'antd';
 import { ExtModal, ScrollBar } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import UserList from './UserList';
 import styles from './index.less';
 
@@ -91,7 +92,8 @@ class BatchModal extends PureComponent {
         if (task.flowTaskType !== 'poolTask') {
           if (
             !node.solidifyFlow &&
-            isEmpty(task.userIds) && task.type !== 'EndEvent' &&
+            isEmpty(task.userIds) &&
+            task.type !== 'EndEvent' &&
             task.type !== 'CounterSignNotEnd'
           ) {
             canSubmit = false;
@@ -106,7 +108,7 @@ class BatchModal extends PureComponent {
     const { visible, submitting, batchNextNodes } = this.props;
     const { canSubmit } = this.state;
     const extModalProps = {
-      title: '批量处理',
+      title: formatMessage({ id: 'flowtask_000026', defaultMessage: '批量处理' }),
       wrapClassName: cls(styles['batch-modal-box']),
       width: 720,
       bodyStyle: { height: 480, padding: 0 },

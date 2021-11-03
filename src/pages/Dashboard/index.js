@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Icon, Menu, Layout } from 'antd';
 import Link from 'umi/link';
 import cls from 'classnames';
@@ -80,7 +81,9 @@ export default class Home extends Component {
   render() {
     return (
       <Layout className={cls(styles['main-box'])}>
-        <Header className={cls('menu-header')}>应用路由列表</Header>
+        <Header className={cls('menu-header')}>
+          {formatMessage({ id: 'flowtask_000075', defaultMessage: '应用路由列表' })}
+        </Header>
         <Content className={cls('menu-box')}>
           <ScrollBar>
             <Menu key="Menu" mode="inline" theme="light">

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { get, omit, isEqual } from 'lodash';
 import { Drawer, Form, Button, Input } from 'antd';
 import { ScrollBar, ScopeDatePicker } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -85,22 +86,46 @@ class FilterView extends PureComponent {
     };
     return (
       <>
-        <FormItem label="单据编号">
+        <FormItem label={formatMessage({ id: 'flowtask_000015', defaultMessage: '单据编号' })}>
           {getFieldDecorator('businessCode', {
             initialValue: get(filterData, 'businessCode', null),
-          })(<Input allowClear placeholder="单据编号关键字" />)}
+          })(
+            <Input
+              allowClear
+              placeholder={formatMessage({
+                id: 'flowtask_000030',
+                defaultMessage: '单据编号关键字',
+              })}
+            />,
+          )}
         </FormItem>
-        <FormItem label="单据说明">
+        <FormItem label={formatMessage({ id: 'flowtask_000017', defaultMessage: '单据说明' })}>
           {getFieldDecorator('businessModelRemark', {
             initialValue: get(filterData, 'businessModelRemark', null),
-          })(<Input allowClear placeholder="单据说明关键字" />)}
+          })(
+            <Input
+              allowClear
+              placeholder={formatMessage({
+                id: 'flowtask_000031',
+                defaultMessage: '单据说明关键字',
+              })}
+            />,
+          )}
         </FormItem>
-        <FormItem label="任务名称">
+        <FormItem label={formatMessage({ id: 'flowtask_000032', defaultMessage: '任务名称' })}>
           {getFieldDecorator('flowTaskName', {
             initialValue: get(filterData, 'flowTaskName', null),
-          })(<Input allowClear placeholder="任务名称关键字" />)}
+          })(
+            <Input
+              allowClear
+              placeholder={formatMessage({
+                id: 'flowtask_000033',
+                defaultMessage: '任务名称关键字',
+              })}
+            />,
+          )}
         </FormItem>
-        <FormItem label="办理时间">
+        <FormItem label={formatMessage({ id: 'flowtask_000049', defaultMessage: '办理时间' })}>
           {getFieldDecorator('actEndTime', {
             initialValue: [get(filterData, 'startDate'), get(filterData, 'endDate')],
           })(<ScopeDatePicker {...scopeDatePickerProps} />)}
@@ -118,7 +143,7 @@ class FilterView extends PureComponent {
         getContainer={false}
         placement="right"
         visible={showFilter}
-        title="过滤"
+        title={formatMessage({ id: 'flowtask_000027', defaultMessage: '过滤' })}
         className={cls(styles['filter-box'])}
         onClose={this.handlerClose}
         style={{ position: 'absolute' }}
@@ -131,9 +156,11 @@ class FilterView extends PureComponent {
           </div>
         </ScrollBar>
         <div className="footer">
-          <Button onClick={this.handlerReset}>重置</Button>
+          <Button onClick={this.handlerReset}>
+            {formatMessage({ id: 'flowtask_000034', defaultMessage: '重置' })}
+          </Button>
           <Button type="primary" onClick={e => this.handlerFilter(e)}>
-            确定
+            {formatMessage({ id: 'flowtask_000035', defaultMessage: '确定' })}
           </Button>
         </div>
       </Drawer>

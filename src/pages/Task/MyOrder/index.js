@@ -7,6 +7,7 @@ import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import OrderView from './components/OrderView';
 import FilterView from './components/FilterView';
@@ -56,7 +57,10 @@ class MyOrder extends PureComponent {
     }
     this.tabOpen({
       id: flowInstanceBusinessId,
-      title: `单据详情-${flowInstanceBusinessCode}`,
+      title: `${formatMessage({
+        id: 'flowtask_000014',
+        defaultMessage: '单据详情-',
+      })}${flowInstanceBusinessCode}`,
       url,
     });
   };
@@ -88,22 +92,22 @@ class MyOrder extends PureComponent {
   renderflowRevokeConfirmContent = doneItem => {
     return (
       <>
-        确定要终止单号为
+        {formatMessage({ id: 'flowtask_000053', defaultMessage: '确定要终止单号为' })}
         <span style={{ color: 'rgba(0,0,0,0.65)', margin: '0 8px', fontWeight: 700 }}>
           {doneItem.businessCode}
         </span>
-        的单据吗?
+        {formatMessage({ id: 'flowtask_000054', defaultMessage: '的单据吗?' })}?
       </>
     );
   };
 
   flowEndConfirm = doneItem => {
     this.confirmModal = Modal.confirm({
-      title: '终止审批确认',
+      title: formatMessage({ id: 'flowtask_000055', defaultMessage: '终止审批确认' }),
       content: this.renderflowRevokeConfirmContent(doneItem),
       icon: <ExtIcon type="exclamation-circle" antd />,
-      okText: '确定',
-      cancelText: '取消',
+      okText: formatMessage({ id: 'flowtask_000035', defaultMessage: '确定' }),
+      cancelText: formatMessage({ id: 'flowtask_000025', defaultMessage: '取消' }),
       onOk: () => {
         return new Promise(resolve => {
           this.flowEndSubmit(doneItem, resolve);
@@ -226,7 +230,7 @@ class MyOrder extends PureComponent {
         width: 50,
         align: 'center',
         dataIndex: 'id',
-        title: '操作',
+        title: formatMessage({ id: 'flowtask_000021', defaultMessage: '操作' }),
         className: 'action',
         fixed: 'left',
         required: true,
@@ -239,26 +243,38 @@ class MyOrder extends PureComponent {
         },
       },
       {
-        title: '单据编号',
+        title: formatMessage({ id: 'flowtask_000015', defaultMessage: '单据编号' }),
         dataIndex: 'businessCode',
         width: 160,
       },
       {
-        title: '单据状态',
+        title: formatMessage({ id: 'flowtask_000056', defaultMessage: '单据状态' }),
         dataIndex: 'flowStatus',
         width: 140,
         render: (_, record) => {
           if (get(record, 'manuallyEnd') === true) {
-            return <Tag color="magenta">异常结束</Tag>;
+            return (
+              <Tag color="magenta">
+                {formatMessage({ id: 'flowtask_000057', defaultMessage: '异常结束' })}
+              </Tag>
+            );
           }
           if (get(record, 'ended') === true) {
-            return <Tag color="green">审批完成</Tag>;
+            return (
+              <Tag color="green">
+                {formatMessage({ id: 'flowtask_000058', defaultMessage: '审批完成' })}
+              </Tag>
+            );
           }
-          return <Tag color="blue">审批中</Tag>;
+          return (
+            <Tag color="blue">
+              {formatMessage({ id: 'flowtask_000059', defaultMessage: '审批中' })}
+            </Tag>
+          );
         },
       },
       {
-        title: '流程名称',
+        title: formatMessage({ id: 'flowtask_000016', defaultMessage: '流程名称' }),
         dataIndex: 'flowName',
         width: 180,
         render: flowName => {
@@ -266,7 +282,7 @@ class MyOrder extends PureComponent {
         },
       },
       {
-        title: '单据说明',
+        title: formatMessage({ id: 'flowtask_000017', defaultMessage: '单据说明' }),
         dataIndex: 'businessModelRemark',
         width: 480,
         render: (_text, record) => {
@@ -278,7 +294,7 @@ class MyOrder extends PureComponent {
         },
       },
       {
-        title: '提交时间',
+        title: formatMessage({ id: 'flowtask_000060', defaultMessage: '提交时间' }),
         dataIndex: 'createdDate',
         width: 100,
         render: (_text, record) => {
@@ -293,7 +309,7 @@ class MyOrder extends PureComponent {
         },
       },
       {
-        title: '流程结束时间',
+        title: formatMessage({ id: 'flowtask_000061', defaultMessage: '流程结束时间' }),
         dataIndex: 'endDate',
         width: 160,
         render: (_text, record) => {
@@ -326,7 +342,9 @@ class MyOrder extends PureComponent {
             onClick={this.handlerShowFilter}
           >
             <ExtIcon type="filter" style={{ fontSize: 16 }} />
-            <span className="lable">过滤</span>
+            <span className="lable">
+              {formatMessage({ id: 'flowtask_000027', defaultMessage: '过滤' })}
+            </span>
           </span>
         </>
       ),
@@ -336,7 +354,10 @@ class MyOrder extends PureComponent {
       columns,
       rowKey: 'flowInstanceId',
       searchWidth: 280,
-      searchPlaceHolder: '输入单据编号、说明关键字查询',
+      searchPlaceHolder: formatMessage({
+        id: 'flowtask_000028',
+        defaultMessage: '输入单据编号、说明关键字查询',
+      }),
       searchProperties: ['businessCode', 'businessModelRemark'],
       remotePaging: true,
       cascadeParams: {

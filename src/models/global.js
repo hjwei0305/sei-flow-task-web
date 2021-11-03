@@ -3,6 +3,7 @@ import { stringify } from 'qs';
 import { utils, message } from 'suid';
 import { userUtils, constants as localConstants } from '@/utils';
 import { login, getAuthorizedFeatures, getVerifyCode } from '@/services/api';
+import { formatMessage } from 'umi-plugin-react/locale';
 
 const { setCurrentAuth, setCurrentPolicy, setSessionId, setCurrentUser } = userUtils;
 
@@ -62,7 +63,7 @@ export default {
         const { from } = locationQuery;
         switch (loginStatus) {
           case LOGIN_STATUS.SUCCESS:
-            message.success('登录成功');
+            message.success(formatMessage({ id: 'flowtask_000076', defaultMessage: '登录成功' }));
             setCurrentUser(data);
             setSessionId(sessionId);
             setCurrentPolicy(authorityPolicy);
@@ -83,7 +84,9 @@ export default {
             }
             break;
           case LOGIN_STATUS.MULTI_TENANT:
-            message.warning('需要输入租户账号');
+            message.warning(
+              formatMessage({ id: 'flowtask_000077', defaultMessage: '需要输入租户账号' }),
+            );
             yield put({
               type: 'updateState',
               payload: {
@@ -93,22 +96,26 @@ export default {
             });
             break;
           case LOGIN_STATUS.CAPTCHA_ERROR:
-            message.error('验证码错误');
+            message.error(formatMessage({ id: 'flowtask_000078', defaultMessage: '验证码错误' }));
             break;
           case LOGIN_STATUS.FROZEN:
-            message.error('账号被冻结');
+            message.error(formatMessage({ id: 'flowtask_000079', defaultMessage: '账号被冻结' }));
             break;
           case LOGIN_STATUS.LOCKED:
-            message.error('账号被锁定');
+            message.error(formatMessage({ id: 'flowtask_000080', defaultMessage: '账号被锁定' }));
             break;
           case LOGIN_STATUS.FAILURE:
-            message.error('账号或密码错误');
+            message.error(
+              formatMessage({ id: 'flowtask_000081', defaultMessage: '账号或密码错误' }),
+            );
             break;
           default:
-            message.error(msg || '登录失败');
+            message.error(
+              msg || formatMessage({ id: 'flowtask_000082', defaultMessage: '登录失败' }),
+            );
         }
       } else {
-        message.error(msg || '登录失败');
+        message.error(msg || formatMessage({ id: 'flowtask_000082', defaultMessage: '登录失败' }));
       }
     },
     *getVerifyCode({ payload }, { call, put }) {

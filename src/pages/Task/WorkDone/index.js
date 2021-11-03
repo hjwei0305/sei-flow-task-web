@@ -7,6 +7,7 @@ import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Input, Alert, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon, Animate } from 'suid';
 import { constants, formartUrl } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import FilterView from './components/FilterView';
@@ -60,7 +61,10 @@ class WorkDone extends PureComponent {
     }
     this.tabOpen({
       id: flowInstanceBusinessId,
-      title: `单据详情-${flowInstanceBusinessCode}`,
+      title: `${formatMessage({
+        id: 'flowtask_000014',
+        defaultMessage: '单据详情-',
+      })}${flowInstanceBusinessCode}`,
       url,
     });
   };
@@ -104,7 +108,7 @@ class WorkDone extends PureComponent {
         style={{ resize: 'none' }}
         autoSize={false}
         rows={4}
-        placeholder="请填写撤回的原因"
+        placeholder={formatMessage({ id: 'flowtask_000046', defaultMessage: '请填写撤回的原因' })}
         onChange={this.handlerOpinionChange}
       />
     );
@@ -112,7 +116,15 @@ class WorkDone extends PureComponent {
     if (this.showFlowRevokeOpinionValidate === true) {
       tip = (
         <Animate type="shake">
-          <Alert type="error" message="请填写你想要撤回的原因" style={{ marginBottom: 8 }} banner />
+          <Alert
+            type="error"
+            message={formatMessage({
+              id: 'flowtask_000047',
+              defaultMessage: '请填写你想要撤回的原因',
+            })}
+            style={{ marginBottom: 8 }}
+            banner
+          />
         </Animate>
       );
     }
@@ -126,11 +138,11 @@ class WorkDone extends PureComponent {
 
   flowRevokeConfirm = doneItem => {
     this.confirmModal = Modal.confirm({
-      title: '我要撤销',
+      title: formatMessage({ id: 'flowtask_000048', defaultMessage: '我要撤销' }),
       content: this.renderflowRevokeConfirmContent(),
       icon: <ExtIcon type="exclamation-circle" antd />,
-      okText: '确定',
-      cancelText: '取消',
+      okText: formatMessage({ id: 'flowtask_000035', defaultMessage: '确定' }),
+      cancelText: formatMessage({ id: 'flowtask_000025', defaultMessage: '取消' }),
       onOk: () => {
         return new Promise(resolve => {
           if (!this.flowRevokeOpinion) {
@@ -267,7 +279,7 @@ class WorkDone extends PureComponent {
         width: 50,
         align: 'center',
         dataIndex: 'id',
-        title: '操作',
+        title: formatMessage({ id: 'flowtask_000021', defaultMessage: '操作' }),
         className: 'action',
         fixed: 'left',
         required: true,
@@ -280,7 +292,7 @@ class WorkDone extends PureComponent {
         },
       },
       {
-        title: '单据编号',
+        title: formatMessage({ id: 'flowtask_000015', defaultMessage: '单据编号' }),
         dataIndex: 'flowInstance.businessCode',
         width: 220,
         render: (text, record) => {
@@ -302,7 +314,7 @@ class WorkDone extends PureComponent {
         },
       },
       {
-        title: '流程名称',
+        title: formatMessage({ id: 'flowtask_000016', defaultMessage: '流程名称' }),
         dataIndex: 'flowName',
         width: 180,
         render: flowName => {
@@ -310,7 +322,7 @@ class WorkDone extends PureComponent {
         },
       },
       {
-        title: '单据说明',
+        title: formatMessage({ id: 'flowtask_000017', defaultMessage: '单据说明' }),
         dataIndex: 'flowInstance.businessModelRemark',
         width: 480,
         render: (_text, record) => {
@@ -322,7 +334,7 @@ class WorkDone extends PureComponent {
         },
       },
       {
-        title: '创建者',
+        title: formatMessage({ id: 'flowtask_000018', defaultMessage: '创建者' }),
         dataIndex: 'flowInstance.creatorAccount',
         width: 200,
         render: (_text, record) => {
@@ -335,7 +347,7 @@ class WorkDone extends PureComponent {
         },
       },
       {
-        title: '办理时间',
+        title: formatMessage({ id: 'flowtask_000049', defaultMessage: '办理时间' }),
         dataIndex: 'actEndTime',
         width: 100,
         render: (_text, record) => {
@@ -371,7 +383,9 @@ class WorkDone extends PureComponent {
             onClick={this.handlerShowFilter}
           >
             <ExtIcon type="filter" style={{ fontSize: 16 }} />
-            <span className="lable">过滤</span>
+            <span className="lable">
+              {formatMessage({ id: 'flowtask_000027', defaultMessage: '过滤' })}
+            </span>
           </span>
         </>
       ),
@@ -381,7 +395,10 @@ class WorkDone extends PureComponent {
       columns,
       searchWidth: 280,
       storageId: '0427430d-1ba0-4c97-b0d3-ded51c9dcb97',
-      searchPlaceHolder: '输入单据编号、说明关键字查询',
+      searchPlaceHolder: formatMessage({
+        id: 'flowtask_000028',
+        defaultMessage: '输入单据编号、说明关键字查询',
+      }),
       searchProperties: ['flowInstance.businessCode', 'flowInstance.businessModelRemark'],
       remotePaging: true,
       onTableRef: ref => (this.tableRef = ref),

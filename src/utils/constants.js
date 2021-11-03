@@ -4,6 +4,7 @@
  * @Last Modified by: Eason
  * @Last Modified time: 2020-08-13 17:24:11
  */
+import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
 
 /** 服务接口基地址，默认是当前站点的域名地址 */
@@ -69,14 +70,29 @@ const FLOW_STATUS = {
 };
 
 const PRIORITY = {
-  '1': { title: '驳回', color: 'magenta' },
-  '2': { title: '撤回', color: 'volcano' },
-  '3': { title: '加急', color: 'red' },
+  '1': {
+    title: formatMessage({ id: 'flowtask_000000', defaultMessage: '驳回' }),
+    color: 'magenta',
+  },
+  '2': {
+    title: formatMessage({ id: 'flowtask_000001', defaultMessage: '撤回' }),
+    color: 'volcano',
+  },
+  '3': { title: formatMessage({ id: 'flowtask_000002', defaultMessage: '加急' }), color: 'red' },
 };
 const WARNINGSTATUS = {
-  normal: { title: '正常', color: 'green' },
-  warning: { title: '预警', color: 'volcano' },
-  timeout: { title: '超时', color: 'red' },
+  normal: {
+    title: formatMessage({ id: 'flowtask_000003', defaultMessage: '正常' }),
+    color: 'green',
+  },
+  warning: {
+    title: formatMessage({ id: 'flowtask_000004', defaultMessage: '预警' }),
+    color: 'volcano',
+  },
+  timeout: {
+    title: formatMessage({ id: 'flowtask_000005', defaultMessage: '超时' }),
+    color: 'red',
+  },
 };
 
 export default {

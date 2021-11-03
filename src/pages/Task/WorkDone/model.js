@@ -1,4 +1,5 @@
 import { utils, message } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { getWorkDoneViewTypeList, flowRevokeSubmit } from './service';
 
 const { pathMatchRegexp, dvaModel, storage, constants } = utils;
@@ -6,7 +7,7 @@ const { modelExtend, model } = dvaModel;
 
 const blankViewType = {
   businessModeId: null,
-  businessModelName: '暂无已办事项',
+  businessModelName: formatMessage({ id: 'flowtask_000044', defaultMessage: '暂无已办事项' }),
   count: 0,
 };
 
@@ -60,7 +61,10 @@ export default modelExtend(model, {
         if (viewTypeData.length > 1) {
           viewTypeData.unshift({
             businessModeId: null,
-            businessModelName: '全部已办事项',
+            businessModelName: formatMessage({
+              id: 'flowtask_000045',
+              defaultMessage: '全部已办事项',
+            }),
             count,
           });
         }
@@ -86,7 +90,7 @@ export default modelExtend(model, {
       const re = yield call(flowRevokeSubmit, payload);
       message.destroy();
       if (re.success) {
-        message.success('处理成功');
+        message.success(formatMessage({ id: 'flowtask_000013', defaultMessage: '处理成功' }));
       } else {
         message.error(re.message);
       }

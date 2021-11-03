@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './WorkView.less';
 
 const { getUUID } = utils;
@@ -84,7 +85,7 @@ class FilterView extends PureComponent {
           <span className={cls(styles['view-box'])}>
             <span className="view-label">
               <ExtIcon type="eye" antd />
-              <em>视图</em>
+              <em>{formatMessage({ id: 'flowtask_000029', defaultMessage: '视图' })}</em>
             </span>
             <span className="view-content">{get(currentViewType, 'businessModelName')}</span>
           </span>
@@ -100,7 +101,7 @@ class FilterView extends PureComponent {
             <span className={cls(styles['view-box'])}>
               <span className="view-label">
                 <ExtIcon type="eye" antd />
-                <em>视图</em>
+                <em>{formatMessage({ id: 'flowtask_000029', defaultMessage: '视图' })}</em>
               </span>
               <span className="view-content">{get(currentViewType, 'businessModelName')}</span>
               <ExtIcon type="down" antd />

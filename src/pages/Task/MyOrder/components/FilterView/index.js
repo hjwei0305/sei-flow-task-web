@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { get, omit, isEqual } from 'lodash';
 import { Drawer, Form, Button, Input } from 'antd';
 import { ScrollBar, ScopeDatePicker, ComboList } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -18,9 +19,18 @@ const formItemLayout = {
 };
 
 const flowStatusData = {
-  ended: { name: '审批完成', code: 'ended' },
-  inflow: { name: '审批中', code: 'inflow' },
-  abnormalEnd: { name: '异常结束', code: 'abnormalEnd' },
+  ended: {
+    name: formatMessage({ id: 'flowtask_000058', defaultMessage: '审批完成' }),
+    code: 'ended',
+  },
+  inflow: {
+    name: formatMessage({ id: 'flowtask_000059', defaultMessage: '审批中' }),
+    code: 'inflow',
+  },
+  abnormalEnd: {
+    name: formatMessage({ id: 'flowtask_000057', defaultMessage: '异常结束' }),
+    code: 'abnormalEnd',
+  },
 };
 
 const getFlowStatusData = () => {
@@ -99,7 +109,7 @@ class FilterView extends PureComponent {
     });
     const comboListProps = {
       form,
-      placeholder: '全部状态',
+      placeholder: formatMessage({ id: 'flowtask_000062', defaultMessage: '全部状态' }),
       allowClear: true,
       showSearch: false,
       dataSource: getFlowStatusData(),
@@ -113,22 +123,38 @@ class FilterView extends PureComponent {
     const flowStatus = get(filterData, 'flowStatus');
     return (
       <>
-        <FormItem label="单据编号">
+        <FormItem label={formatMessage({ id: 'flowtask_000015', defaultMessage: '单据编号' })}>
           {getFieldDecorator('businessCode', {
             initialValue: get(filterData, 'businessCode', null),
-          })(<Input allowClear placeholder="单据编号关键字" />)}
+          })(
+            <Input
+              allowClear
+              placeholder={formatMessage({
+                id: 'flowtask_000030',
+                defaultMessage: '单据编号关键字',
+              })}
+            />,
+          )}
         </FormItem>
-        <FormItem label="单据说明">
+        <FormItem label={formatMessage({ id: 'flowtask_000017', defaultMessage: '单据说明' })}>
           {getFieldDecorator('businessModelRemark', {
             initialValue: get(filterData, 'businessModelRemark', null),
-          })(<Input allowClear placeholder="单据说明关键字" />)}
+          })(
+            <Input
+              allowClear
+              placeholder={formatMessage({
+                id: 'flowtask_000031',
+                defaultMessage: '单据说明关键字',
+              })}
+            />,
+          )}
         </FormItem>
-        <FormItem label="提交时间">
+        <FormItem label={formatMessage({ id: 'flowtask_000060', defaultMessage: '提交时间' })}>
           {getFieldDecorator('createdDate', {
             initialValue: [get(filterData, 'startDate'), get(filterData, 'endDate')],
           })(<ScopeDatePicker {...scopeDatePickerProps} />)}
         </FormItem>
-        <FormItem label="单据状态">
+        <FormItem label={formatMessage({ id: 'flowtask_000056', defaultMessage: '单据状态' })}>
           {getFieldDecorator('flowStatusName', {
             initialValue: get(flowStatusData, `${flowStatus}.name`, ''),
           })(<ComboList {...comboListProps} />)}
@@ -146,7 +172,7 @@ class FilterView extends PureComponent {
         getContainer={false}
         placement="right"
         visible={showFilter}
-        title="过滤"
+        title={formatMessage({ id: 'flowtask_000027', defaultMessage: '过滤' })}
         className={cls(styles['filter-box'])}
         onClose={this.handlerClose}
         style={{ position: 'absolute' }}
@@ -159,9 +185,11 @@ class FilterView extends PureComponent {
           </div>
         </ScrollBar>
         <div className="footer">
-          <Button onClick={this.handlerReset}>重置</Button>
+          <Button onClick={this.handlerReset}>
+            {formatMessage({ id: 'flowtask_000034', defaultMessage: '重置' })}
+          </Button>
           <Button type="primary" onClick={e => this.handlerFilter(e)}>
-            确定
+            {formatMessage({ id: 'flowtask_000035', defaultMessage: '确定' })}
           </Button>
         </div>
       </Drawer>
