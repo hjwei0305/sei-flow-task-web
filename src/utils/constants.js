@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-08-13 17:24:11
+ * @Last Modified time: 2021-11-17 13:32:21
  */
 import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
@@ -71,26 +71,30 @@ const FLOW_STATUS = {
 
 const PRIORITY = {
   '1': {
-    title: formatMessage({ id: 'flowtask_000000', defaultMessage: '驳回' }),
+    lang: { id: 'flowtask_000000', defaultMessage: '驳回' },
     color: 'magenta',
   },
   '2': {
-    title: formatMessage({ id: 'flowtask_000001', defaultMessage: '撤回' }),
+    lang: { id: 'flowtask_000001', defaultMessage: '撤回' },
     color: 'volcano',
   },
-  '3': { title: formatMessage({ id: 'flowtask_000002', defaultMessage: '加急' }), color: 'red' },
+  '3': {
+    lang: { id: 'flowtask_000002', defaultMessage: '加急' },
+    color: 'red',
+  },
 };
 const WARNINGSTATUS = {
   normal: {
     title: formatMessage({ id: 'flowtask_000003', defaultMessage: '正常' }),
+    lang: { id: 'flowtask_000003', defaultMessage: '正常' },
     color: 'green',
   },
   warning: {
-    title: formatMessage({ id: 'flowtask_000004', defaultMessage: '预警' }),
+    lang: { id: 'flowtask_000004', defaultMessage: '预警' },
     color: 'volcano',
   },
   timeout: {
-    title: formatMessage({ id: 'flowtask_000005', defaultMessage: '超时' }),
+    lang: { id: 'flowtask_000005', defaultMessage: '超时' },
     color: 'red',
   },
 };

@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  extends: [require.resolve('@umijs/fabric/dist/eslint')],
+  extends: ['sei'],
   globals: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
     page: true,
@@ -33,10 +34,13 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/anchor-has-content': 0,
     'jsx-a11y/anchor-is-valid': 0,
+    'jsx-a11y/label-has-for': 0,
     'object-curly-newline': 0,
     'implicit-arrow-linebreak': 0,
     'no-unused-expressions': 0,
+    'no-restricted-syntax': 0,
     'consistent-return': 0,
+    'react/no-find-dom-node': 0,
     'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
     'react-hooks/exhaustive-deps': 'warn', // 检查 effect 的依赖
   },

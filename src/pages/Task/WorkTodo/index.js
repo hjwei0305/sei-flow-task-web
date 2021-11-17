@@ -4,11 +4,10 @@ import { connect } from 'dva';
 import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import withRouter from 'umi/withRouter';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Drawer } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl, taskColor } from '@/utils';
-import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import BatchModal from './components/BatchModal';
@@ -237,7 +236,7 @@ class WorkTodo extends PureComponent {
     if (priority) {
       return (
         <Tag color={priority.color} style={{ marginLeft: 4 }}>
-          {priority.title}
+          {formatMessage(priority.lang)}
         </Tag>
       );
     }
@@ -248,7 +247,7 @@ class WorkTodo extends PureComponent {
     if (warningStatus && item.warningStatus !== 'normal') {
       return (
         <Tag color={warningStatus.color} style={{ marginLeft: 4 }}>
-          {warningStatus.title}
+          {formatMessage(warningStatus.lang)}
         </Tag>
       );
     }
