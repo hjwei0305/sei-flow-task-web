@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2021-11-17 13:32:21
+ * @Last Modified time: 2021-12-06 18:36:28
  */
 import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
@@ -81,6 +81,10 @@ const PRIORITY = {
   '3': {
     lang: { id: 'flowtask_000002', defaultMessage: '加急' },
     color: 'red',
+  },
+  '4': {
+    lang: { id: 'flowtask_0000020', defaultMessage: '标注' },
+    color: 'blue',
   },
 };
 const WARNINGSTATUS = {

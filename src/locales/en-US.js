@@ -39,6 +39,8 @@ export default {
 
   flowtask_000002: 'urgent',
 
+  flowtask_0000020: 'Tag',
+
   flowtask_000003: 'normal',
 
   flowtask_000004: 'early warning',
