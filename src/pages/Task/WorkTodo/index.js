@@ -5,7 +5,7 @@ import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import withRouter from 'umi/withRouter';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
-import { Button, Tag, Drawer } from 'antd';
+import { Button, Tag, Drawer, Tooltip } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl, taskColor } from '@/utils';
 import ExtAction from './components/ExtAction';
@@ -233,7 +233,17 @@ class WorkTodo extends PureComponent {
 
   renderPriority = item => {
     const priority = PRIORITY[item.priority];
+    const labelReason = get(item, 'labelReason');
     if (priority) {
+      if (labelReason && priority === '4') {
+        return (
+          <Tooltip title={labelReason}>
+            <Tag color={priority.color} style={{ marginLeft: 4 }}>
+              {formatMessage(priority.lang)}
+            </Tag>
+          </Tooltip>
+        );
+      }
       return (
         <Tag color={priority.color} style={{ marginLeft: 4 }}>
           {formatMessage(priority.lang)}
