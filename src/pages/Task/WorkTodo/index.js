@@ -292,9 +292,9 @@ class WorkTodo extends PureComponent {
                   onClick={() => this.handlerApproveOrder(record)}
                 >
                   {`${num}-${get(record, 'taskName')}`}
-                  {this.renderPriority(record)}
                   {this.renderWarningStatus(record)}
                 </Button>
+                {this.renderPriority(record)}
               </span>
             );
           }
