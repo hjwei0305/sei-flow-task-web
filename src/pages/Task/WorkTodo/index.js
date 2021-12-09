@@ -235,7 +235,7 @@ class WorkTodo extends PureComponent {
     const priority = PRIORITY[item.priority];
     const labelReason = get(item, 'labelReason');
     if (priority) {
-      if (labelReason && priority === '4') {
+      if (labelReason && (priority === '4' || priority === 4)) {
         return (
           <Tooltip title={labelReason}>
             <Tag color={priority.color} style={{ marginLeft: 4 }}>
