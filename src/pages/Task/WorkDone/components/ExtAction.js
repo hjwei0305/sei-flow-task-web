@@ -2,15 +2,15 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:48
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 09:04:05
+ * @Last Modified time: 2021-12-09 18:16:17
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { get } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, WorkFlow } from 'suid';
-import { constants } from '@/utils';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { constants } from '@/utils';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;
@@ -88,6 +88,7 @@ class ExtAction extends PureComponent {
     const { selectedKeys } = this.state;
     const menuId = getUUID();
     const flowInstanceBusinessId = get(record, 'flowInstance.businessId', null);
+    const flowInstanceId = get(record, 'flowInstance.id', null);
     return (
       <Menu
         id={menuId}
@@ -106,7 +107,10 @@ class ExtAction extends PureComponent {
           if (m.key === TASK_WORK_ACTION.FLOW_HISTORY) {
             return (
               <Item key={m.key}>
-                <FlowHistoryButton businessId={flowInstanceBusinessId}>
+                <FlowHistoryButton
+                  businessId={flowInstanceBusinessId}
+                  flowInstanceId={flowInstanceId}
+                >
                   <span className="view-popover-box-trigger">{m.title}</span>
                 </FlowHistoryButton>
               </Item>
