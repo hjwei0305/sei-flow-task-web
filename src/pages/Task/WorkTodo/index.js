@@ -232,21 +232,21 @@ class WorkTodo extends PureComponent {
   };
 
   renderPriority = item => {
-    const priority = PRIORITY[item.priority];
+    const priorityInfo = PRIORITY[item.priority];
     const labelReason = get(item, 'labelReason');
-    if (priority) {
-      if (labelReason && (priority === '4' || priority === 4)) {
+    if (priorityInfo) {
+      if (labelReason && (item.priority === '4' || item.priority === 4)) {
         return (
           <Tooltip title={labelReason}>
-            <Tag color={priority.color} style={{ marginLeft: 4 }}>
-              {formatMessage(priority.lang)}
+            <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
+              {formatMessage(priorityInfo.lang)}
             </Tag>
           </Tooltip>
         );
       }
       return (
-        <Tag color={priority.color} style={{ marginLeft: 4 }}>
-          {formatMessage(priority.lang)}
+        <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
+          {formatMessage(priorityInfo.lang)}
         </Tag>
       );
     }
