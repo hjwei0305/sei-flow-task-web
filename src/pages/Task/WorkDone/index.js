@@ -3,11 +3,10 @@ import cls from 'classnames';
 import { connect } from 'dva';
 import { get, trim, isEmpty } from 'lodash';
 import moment from 'moment';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage , formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Input, Alert, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon, Animate } from 'suid';
 import { constants, formartUrl } from '@/utils';
-import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import FilterView from './components/FilterView';
@@ -305,7 +304,7 @@ class WorkDone extends PureComponent {
         width: 140,
         render: (_, record) => {
           if (get(record, 'flowInstance.manuallyEnd') === true) {
-            return <Tag color="magenta">异常结束</Tag>;
+            return <Tag color="magenta">已终止</Tag>;
           }
           if (get(record, 'flowInstance.ended') === true) {
             return <Tag color="green">审批完成</Tag>;

@@ -90,7 +90,7 @@ export default {
   flowtask_000054: '的单据吗?',
   flowtask_000055: '终止审批确认',
   flowtask_000056: '单据状态',
-  flowtask_000057: '异常结束',
+  flowtask_000057: '已终止',
   flowtask_000058: '审批完成',
   flowtask_000059: '审批中',
   flowtask_000060: '提交时间',

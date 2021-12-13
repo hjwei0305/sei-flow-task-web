@@ -28,7 +28,7 @@ const flowStatusData = {
     code: 'inflow',
   },
   abnormalEnd: {
-    name: formatMessage({ id: 'flowtask_000057', defaultMessage: '异常结束' }),
+    name: formatMessage({ id: 'flowtask_000057', defaultMessage: '已终止' }),
     code: 'abnormalEnd',
   },
 };
@@ -69,7 +69,9 @@ class FilterView extends PureComponent {
   }
 
   handlerFilter = e => {
-    e && e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const { filterData } = this.state;
     const { form, onFilterSubmit } = this.props;
     form.validateFields((err, formData) => {

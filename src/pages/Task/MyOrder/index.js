@@ -3,11 +3,10 @@ import cls from 'classnames';
 import { connect } from 'dva';
 import { get, isEmpty } from 'lodash';
 import moment from 'moment';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage , formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl } from '@/utils';
-import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './components/ExtAction';
 import OrderView from './components/OrderView';
 import FilterView from './components/FilterView';
@@ -255,7 +254,7 @@ class MyOrder extends PureComponent {
           if (get(record, 'manuallyEnd') === true) {
             return (
               <Tag color="magenta">
-                {formatMessage({ id: 'flowtask_000057', defaultMessage: '异常结束' })}
+                {formatMessage({ id: 'flowtask_000057', defaultMessage: '已终止' })}
               </Tag>
             );
           }

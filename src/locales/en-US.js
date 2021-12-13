@@ -150,7 +150,7 @@ export default {
 
   flowtask_000056: 'Doc status',
 
-  flowtask_000057: 'abnormal end',
+  flowtask_000057: 'terminated',
 
   flowtask_000058: 'approval completed',
 
