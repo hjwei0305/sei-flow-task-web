@@ -423,9 +423,10 @@ class WorkTodo extends PureComponent {
             <span className={cls('select')}>{`${formatMessage({
               id: 'flowtask_000023',
               defaultMessage: '已选择',
-            })} ${
-              checkedKeys.length
-            } {formatMessage({id: 'flowtask_000024', defaultMessage: '项'})}`}</span>
+            })} ${checkedKeys.length} ${formatMessage({
+              id: 'flowtask_000024',
+              defaultMessage: '项',
+            })}`}</span>
             <Button
               className="btn-item"
               type="danger"
