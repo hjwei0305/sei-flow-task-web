@@ -3,13 +3,14 @@ import cls from 'classnames';
 import { connect } from 'dva';
 import { get, isEmpty } from 'lodash';
 import moment from 'moment';
-import { FormattedMessage , formatMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants, formartUrl } from '@/utils';
 import ExtAction from './components/ExtAction';
 import OrderView from './components/OrderView';
 import FilterView from './components/FilterView';
+import UrgedForm from './components/UrgedForm';
 import styles from './index.less';
 
 const { eventBus } = utils;
@@ -37,6 +38,8 @@ class MyOrder extends PureComponent {
   static tableRef;
 
   static confirmModal;
+
+  static urgeRecord;
 
   constructor(props) {
     super(props);
@@ -76,6 +79,42 @@ class MyOrder extends PureComponent {
     }
   };
 
+  handlerUrge = data => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/sendToUrgedInfo',
+      payload: data,
+      callback: res => {
+        if (res.success) {
+          this.handlerRefreshData();
+          this.handlerCloseShowUrge();
+        }
+      },
+    });
+  };
+
+  handlerShowUrge = record => {
+    this.urgeRecord = record;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/updateState',
+      payload: {
+        showUrge: true,
+      },
+    });
+  };
+
+  handlerCloseShowUrge = () => {
+    this.urgeRecord = null;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'taskMyOrder/updateState',
+      payload: {
+        showUrge: false,
+      },
+    });
+  };
+
   handlerAction = (key, record) => {
     switch (key) {
       case TASK_WORK_ACTION.VIEW_ORDER:
@@ -83,6 +122,9 @@ class MyOrder extends PureComponent {
         break;
       case TASK_WORK_ACTION.FLOW_END:
         this.flowEndConfirm(record);
+        break;
+      case TASK_WORK_ACTION.FLOW_URGE:
+        this.handlerShowUrge(record);
         break;
       default:
     }
@@ -220,8 +262,8 @@ class MyOrder extends PureComponent {
   };
 
   render() {
-    const { taskMyOrder } = this.props;
-    const { currentViewType, viewTypeData, showFilter, filterData } = taskMyOrder;
+    const { taskMyOrder, loading } = this.props;
+    const { currentViewType, viewTypeData, showFilter, filterData, showUrge } = taskMyOrder;
     const filters = this.getFilters();
     const columns = [
       {
@@ -384,10 +426,18 @@ class MyOrder extends PureComponent {
       onFilterSubmit: this.handlerFilterSubmit,
       onCloseFilter: this.handlerCloseFilter,
     };
+    const urgedFormProps = {
+      closeFormModal: this.handlerCloseShowUrge,
+      saving: loading.effects['taskMyOrder/sendToUrgedInfo'],
+      showModal: showUrge,
+      save: this.handlerUrge,
+      flowInstanceId: get(this.urgeRecord, 'flowInstanceId'),
+    };
     return (
       <div className={cls(styles['container-box'])}>
         <ExtTable {...extTableProps} />
         <FilterView {...filterViewProps} />
+        <UrgedForm {...urgedFormProps} />
       </div>
     );
   }

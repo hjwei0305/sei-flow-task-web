@@ -265,4 +265,7 @@ export default {
   flowtask_000113: 'Exit batch processing',
 
   flowtask_000114: 'I want to batch processing',
+
+  flowtask_000115: 'I want to rush it',
+  flowtask_000116: 'Successful urging',
 };

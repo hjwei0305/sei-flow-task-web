@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2021-12-06 18:36:28
+ * @Last Modified time: 2021-12-27 16:10:58
  */
 import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
@@ -60,6 +60,7 @@ const TASK_WORK_ACTION = {
   FLOW_HISTORY: 'Flow_History',
   FLOW_REVOKE: 'Flow_Revoke',
   FLOW_END: 'Flow_End',
+  FLOW_URGE: 'Flow_Urge',
 };
 
 /** 流程状态枚举 */

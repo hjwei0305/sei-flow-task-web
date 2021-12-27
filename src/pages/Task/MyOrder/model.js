@@ -1,6 +1,6 @@
 import { utils, message } from 'suid';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { getMyOrderViewTypeList, flowEndSubmit } from './service';
+import { getMyOrderViewTypeList, flowEndSubmit, sendToUrgedInfo } from './service';
 
 const { pathMatchRegexp, dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -19,6 +19,7 @@ export default modelExtend(model, {
     currentViewType: null,
     showFilter: false,
     filterData: {},
+    showUrge: false,
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -62,6 +63,18 @@ export default modelExtend(model, {
       message.destroy();
       if (re.success) {
         message.success(formatMessage({ id: 'flowtask_000013', defaultMessage: '处理成功' }));
+      } else {
+        message.error(re.message);
+      }
+      if (callback && callback instanceof Function) {
+        callback(re);
+      }
+    },
+    *sendToUrgedInfo({ payload, callback }, { call }) {
+      const re = yield call(sendToUrgedInfo, payload);
+      message.destroy();
+      if (re.success) {
+        message.success(formatMessage({ id: 'flowtask_000116', defaultMessage: '催办成功' }));
       } else {
         message.error(re.message);
       }

@@ -25,3 +25,15 @@ export async function flowEndSubmit(params) {
     method: 'POST',
   });
 }
+
+/**
+ * 催办
+ */
+export async function sendToUrgedInfo(data) {
+  const url = `${SERVER_PATH}/flow-service/flowInstance/sendToUrgedInfo`;
+  return request({
+    url,
+    method: 'POST',
+    data,
+  });
+}

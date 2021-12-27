@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:48
  * @Last Modified by: Eason
- * @Last Modified time: 2021-12-09 18:15:45
+ * @Last Modified time: 2021-12-27 16:24:30
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -35,6 +35,11 @@ const menuData = () => [
     key: TASK_WORK_ACTION.FLOW_END,
     disabled: true,
   },
+  {
+    title: formatMessage({ id: 'flowtask_000115', defaultMessage: '催办' }),
+    key: TASK_WORK_ACTION.FLOW_URGE,
+    disabled: true,
+  },
 ];
 
 class ExtAction extends PureComponent {
@@ -61,6 +66,13 @@ class ExtAction extends PureComponent {
     ) {
       menus.forEach(m => {
         if (m.key === TASK_WORK_ACTION.FLOW_END) {
+          Object.assign(m, { disabled: false });
+        }
+      });
+    }
+    if (doneItem.canUrged === true && doneItem.ended === false) {
+      menus.forEach(m => {
+        if (m.key === TASK_WORK_ACTION.FLOW_URGE) {
           Object.assign(m, { disabled: false });
         }
       });

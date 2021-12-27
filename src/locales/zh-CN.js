@@ -148,4 +148,6 @@ export default {
   flowtask_000112: '按钮或者手动刷新页面',
   flowtask_000113: '退出批量处理',
   flowtask_000114: '我要批量处理',
+  flowtask_000115: '催办',
+  flowtask_000116: '催办成功',
 };
