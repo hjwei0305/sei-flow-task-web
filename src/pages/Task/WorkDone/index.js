@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { connect } from 'dva';
 import { get, trim, isEmpty } from 'lodash';
 import moment from 'moment';
-import { FormattedMessage , formatMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Input, Alert, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon, Animate } from 'suid';
 import { constants, formartUrl } from '@/utils';
@@ -23,6 +23,8 @@ const filterOperation = {
   endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
   businessCode: { fieldName: 'flowInstance.businessCode', operation: 'EQ', dataType: 'String' },
   flowTaskName: { fieldName: 'flowTaskName', operation: 'LK', dataType: 'String' },
+  flowName: { fieldName: 'flowName', operation: 'LK', dataType: 'String' },
+  taskStatus: { fieldName: 'taskStatus', operation: 'EQ', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',
     operation: 'LK',
