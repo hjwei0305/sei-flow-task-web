@@ -150,4 +150,6 @@ export default {
   flowtask_000114: '我要批量处理',
   flowtask_000115: '催办',
   flowtask_000116: '催办成功',
+  flowtask_000117: '流程名称关键字',
+  flowtask_000118: '任务类型',
 };
