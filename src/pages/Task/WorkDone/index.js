@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { connect } from 'dva';
 import { get, trim, isEmpty } from 'lodash';
 import moment from 'moment';
-import { FormattedMessage , formatMessage } from 'umi-plugin-react/locale';
+import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Input, Alert, Modal } from 'antd';
 import { ExtTable, utils, ExtIcon, Animate } from 'suid';
 import { constants, formartUrl } from '@/utils';
@@ -275,7 +275,7 @@ class WorkDone extends PureComponent {
     const columns = [
       {
         key: 'operation',
-        width: 50,
+        width: 80,
         align: 'center',
         dataIndex: 'id',
         title: formatMessage({ id: 'flowtask_000021', defaultMessage: '操作' }),
@@ -348,14 +348,10 @@ class WorkDone extends PureComponent {
       {
         title: formatMessage({ id: 'flowtask_000049', defaultMessage: '办理时间' }),
         dataIndex: 'actEndTime',
-        width: 100,
+        width: 180,
         render: (_text, record) => {
           if (record) {
-            return (
-              <span title={moment(record.actEndTime).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag>{moment(record.actEndTime).fromNow()}</Tag>
-              </span>
-            );
+            return moment(record.actEndTime).format('YYYY-MM-DD HH:mm:ss');
           }
           return null;
         },
@@ -393,6 +389,7 @@ class WorkDone extends PureComponent {
       toolBar: toolBarProps,
       columns,
       searchWidth: 280,
+      lineNumber: false,
       storageId: '0427430d-1ba0-4c97-b0d3-ded51c9dcb97',
       searchPlaceHolder: formatMessage({
         id: 'flowtask_000028',

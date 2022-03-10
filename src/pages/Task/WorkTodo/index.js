@@ -7,7 +7,7 @@ import withRouter from 'umi/withRouter';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { Button, Tag, Drawer, Tooltip } from 'antd';
 import { ExtTable, utils, ExtIcon } from 'suid';
-import { constants, formartUrl, taskColor } from '@/utils';
+import { constants, formartUrl } from '@/utils';
 import ExtAction from './components/ExtAction';
 import WorkView from './components/WorkView';
 import BatchModal from './components/BatchModal';
@@ -343,7 +343,7 @@ class WorkTodo extends PureComponent {
       {
         title: formatMessage({ id: 'flowtask_000019', defaultMessage: '额定工时（小时）' }),
         dataIndex: 'timing',
-        width: 100,
+        width: 140,
         render: timing => {
           if (!timing) {
             return '-';
@@ -354,16 +354,10 @@ class WorkTodo extends PureComponent {
       {
         title: formatMessage({ id: 'flowtask_000020', defaultMessage: '事项到达' }),
         dataIndex: 'createdDate',
-        width: 100,
+        width: 180,
         render: (_text, record) => {
           if (record) {
-            return (
-              <Tag color={taskColor(record.createdDate)}>
-                <span title={moment(record.createdDate).format('YYYY-MM-DD HH:mm:ss')}>
-                  {moment(record.createdDate).fromNow()}
-                </span>
-              </Tag>
-            );
+            return moment(record.createdDate).format('YYYY-MM-DD HH:mm:ss');
           }
           return null;
         },
@@ -372,7 +366,7 @@ class WorkTodo extends PureComponent {
     if (!isBatch) {
       const col = {
         key: 'operation',
-        width: 50,
+        width: 80,
         align: 'center',
         dataIndex: 'id',
         title: formatMessage({ id: 'flowtask_000021', defaultMessage: '操作' }),
@@ -465,6 +459,7 @@ class WorkTodo extends PureComponent {
       columns,
       checkbox: isBatch,
       searchWidth: 280,
+      lineNumber: false,
       storageId: 'c34581a9-6f8c-40f1-9a01-466571aaedb0',
       searchPlaceHolder: formatMessage({
         id: 'flowtask_000028',

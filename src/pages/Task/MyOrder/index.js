@@ -268,7 +268,7 @@ class MyOrder extends PureComponent {
     const columns = [
       {
         key: 'operation',
-        width: 50,
+        width: 80,
         align: 'center',
         dataIndex: 'id',
         title: formatMessage({ id: 'flowtask_000021', defaultMessage: '操作' }),
@@ -337,14 +337,10 @@ class MyOrder extends PureComponent {
       {
         title: formatMessage({ id: 'flowtask_000060', defaultMessage: '提交时间' }),
         dataIndex: 'createdDate',
-        width: 100,
+        width: 180,
         render: (_text, record) => {
           if (record) {
-            return (
-              <span title={moment(record.createdDate).format('YYYY-MM-DD HH:mm:ss')}>
-                <Tag>{moment(record.createdDate).fromNow()}</Tag>
-              </span>
-            );
+            return moment(record.createdDate).format('YYYY-MM-DD HH:mm:ss');
           }
           return null;
         },
@@ -393,6 +389,7 @@ class MyOrder extends PureComponent {
     const extTableProps = {
       toolBar: toolBarProps,
       columns,
+      lineNumber: false,
       rowKey: 'flowInstanceId',
       searchWidth: 280,
       searchPlaceHolder: formatMessage({

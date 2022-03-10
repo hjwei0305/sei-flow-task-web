@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { get, isEqual, findIndex } from 'lodash';
 import { Dropdown, Menu } from 'antd';
-import { utils, ExtIcon } from 'suid';
+import { utils, ExtIcon, ScrollBar } from 'suid';
 import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './WorkView.less';
 
@@ -48,23 +48,27 @@ class WorkView extends PureComponent {
     const { selectedKey } = this.state;
     const menuId = getUUID();
     return (
-      <Menu
-        id={menuId}
-        className={cls(styles['action-menu-box'])}
-        onClick={e => this.onActionOperation(e)}
-        selectedKeys={[`${selectedKey}`]}
-      >
-        {menus.map((m, index) => {
-          return (
-            <Item key={index.toString()}>
-              {index.toString() === selectedKey.toString() ? (
-                <ExtIcon type="check" className="selected" antd />
-              ) : null}
-              <span className="view-popover-box-trigger">{m.businessModelName}</span>
-            </Item>
-          );
-        })}
-      </Menu>
+      <div className={cls(styles['box-content'])}>
+        <ScrollBar>
+          <Menu
+            id={menuId}
+            className={cls(styles['action-menu-box'])}
+            onClick={e => this.onActionOperation(e)}
+            selectedKeys={[`${selectedKey}`]}
+          >
+            {menus.map((m, index) => {
+              return (
+                <Item key={index.toString()}>
+                  {index.toString() === selectedKey.toString() ? (
+                    <ExtIcon type="check" className="selected" antd />
+                  ) : null}
+                  <span className="view-popover-box-trigger">{m.businessModelName}</span>
+                </Item>
+              );
+            })}
+          </Menu>
+        </ScrollBar>
+      </div>
     );
   };
 
