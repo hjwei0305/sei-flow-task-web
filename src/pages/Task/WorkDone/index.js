@@ -23,6 +23,8 @@ const filterOperation = {
   endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
   businessCode: { fieldName: 'flowInstance.businessCode', operation: 'EQ', dataType: 'String' },
   flowTaskName: { fieldName: 'flowTaskName', operation: 'LK', dataType: 'String' },
+  flowName: { fieldName: 'flowName', operation: 'LK', dataType: 'String' },
+  taskStatus: { fieldName: 'taskStatus', operation: 'EQ', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',
     operation: 'LK',

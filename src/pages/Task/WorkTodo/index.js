@@ -23,6 +23,8 @@ const filterOperation = {
   endDate: { fieldName: 'endDate', operation: 'LE', dataType: 'Date' },
   businessCode: { fieldName: 'flowInstance.businessCode', operation: 'LK', dataType: 'String' },
   taskName: { fieldName: 'taskName', operation: 'LK', dataType: 'String' },
+  flowName: { fieldName: 'flowName', operation: 'LK', dataType: 'String' },
+  taskStatus: { fieldName: 'taskStatus', operation: 'EQ', dataType: 'String' },
   businessModelRemark: {
     fieldName: 'flowInstance.businessModelRemark',
     operation: 'LK',
@@ -78,7 +80,7 @@ class WorkTodo extends PureComponent {
   };
 
   handlerApproveOrder = item => {
-    let url = '';
+    let url;
     const flowInstanceId = get(item, 'flowInstance.id', null);
     const flowInstanceBusinessId = get(item, 'flowInstance.businessId', null);
     if (item.taskFormUrl.includes('?')) {

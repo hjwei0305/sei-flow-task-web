@@ -267,5 +267,10 @@ export default {
   flowtask_000114: 'I want to batch processing',
 
   flowtask_000115: 'I want to rush it',
+
   flowtask_000116: 'Successful urging',
+
+  flowtask_000117: 'Flow name keyword',
+
+  flowtask_000118: 'The task type',
 };
